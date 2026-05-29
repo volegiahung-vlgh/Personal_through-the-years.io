@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Great_Vibes, Dancing_Script } from 'next/font/googl
 import '@/styles/globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import SplashScreen from '@/components/SplashScreen';
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -43,6 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${cormorant.variable} ${greatVibes.variable} ${dancing.variable}`}
     >
       <body className="font-serif">
+        <SplashScreen />
         <Navbar />
         <main>{children}</main>
         <Footer />
