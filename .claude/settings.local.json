@@ -14,7 +14,8 @@
       "PowerShell(2021,2022,2023,2024,2025,2026 | ForEach-Object { New-Item -ItemType Directory -Path \"C:\\\\Users\\\\hung.vo\\\\Desktop\\\\Project\\\\public\\\\images\\\\$_\" -Force })",
       "Bash(npm run *)",
       "PowerShell($env:Path = [System.Environment]::GetEnvironmentVariable\\(\"Path\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"Path\",\"User\"\\); Set-Location \"C:\\\\Users\\\\hung.vo\\\\Desktop\\\\Project\"; npm run build)",
-      "PowerShell(New-Item -ItemType Directory -Force -Path \"C:\\\\Users\\\\hung.vo\\\\Desktop\\\\Project\\\\.github\\\\workflows\")"
+      "PowerShell(New-Item -ItemType Directory -Force -Path \"C:\\\\Users\\\\hung.vo\\\\Desktop\\\\Project\\\\.github\\\\workflows\")",
+      "PowerShell($env:Path = [System.Environment]::GetEnvironmentVariable\\(\"Path\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"Path\",\"User\"\\); Set-Location \"C:\\\\Users\\\\hung.vo\\\\Desktop\\\\Project\"; Start-Process powershell -ArgumentList '-NoExit','-Command','Set-Location ''C:\\\\Users\\\\hung.vo\\\\Desktop\\\\Project''; npm run dev' -WindowStyle Normal)"
     ]
   }
 }

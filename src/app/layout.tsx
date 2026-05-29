@@ -4,6 +4,7 @@ import '@/styles/globals.css';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SplashScreen from '@/components/SplashScreen';
+import { getAllPhotoSrcs } from '@/lib/photos';
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -38,13 +39,15 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const allPhotos = getAllPhotoSrcs();
+
   return (
     <html
       lang="en"
       className={`${cormorant.variable} ${greatVibes.variable} ${dancing.variable}`}
     >
       <body className="font-serif">
-        <SplashScreen />
+        <SplashScreen photos={allPhotos} />
         <Navbar />
         <main>{children}</main>
         <Footer />

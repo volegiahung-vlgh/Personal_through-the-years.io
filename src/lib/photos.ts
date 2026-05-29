@@ -22,3 +22,16 @@ export function getPhotosForYear(year: number) {
       alt: `${year} — ${path.basename(file, path.extname(file))}`,
     }));
 }
+
+const YEARS = [2021, 2022, 2023, 2024, 2025, 2026];
+
+export function getAllPhotoSrcs(): string[] {
+  return YEARS.flatMap(year => {
+    const dir = path.join(process.cwd(), 'public', 'images', String(year));
+    if (!fs.existsSync(dir)) return [];
+    return fs
+      .readdirSync(dir)
+      .filter(file => IMAGE_EXTS.has(path.extname(file).toLowerCase()))
+      .map(file => `${BASE_PATH}/images/${year}/${file}`);
+  });
+}
