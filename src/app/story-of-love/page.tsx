@@ -2,7 +2,7 @@ import StoryTimeline from '@/components/StoryTimeline';
 import QuoteCard from '@/components/QuoteCard';
 import FloatingHearts from '@/components/FloatingHearts';
 import quotes from '@/content/story-of-love/quotes.json';
-import { getPhotosForYear } from '@/lib/photos';
+import { getPhotosForYear, getMomentsForYear } from '@/lib/photos';
 
 export const metadata = {
   title: 'Our Story · Through the Years',
@@ -31,7 +31,8 @@ export default function StoryPage() {
   const timelineEntries = Object.entries(yearMeta).map(([yr, meta]) => ({
     year: Number(yr),
     ...meta,
-    photos: getPhotosForYear(Number(yr)),
+    photos:  getPhotosForYear(Number(yr)),
+    moments: getMomentsForYear(Number(yr)),
   }));
   return (
     <div style={{ background: 'var(--bg)' }} className="min-h-screen">

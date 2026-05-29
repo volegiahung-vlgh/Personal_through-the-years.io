@@ -35,3 +35,41 @@ export function getAllPhotoSrcs(): string[] {
       .map(file => `${BASE_PATH}/images/${year}/${file}`);
   });
 }
+
+export interface Moment {
+  name: string;    // formatted: "da-lat" → "Da Lat"
+  slug: string;    // raw folder name
+  cover: string;   // first photo src
+  count: number;
+  photos: string[];
+}
+
+function formatName(slug: string): string {
+  return slug.replace(/[-_]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+export function getMomentsForYear(year: number): Moment[] {
+  const yearDir = path.join(process.cwd(), 'public', 'images', String(year));
+  if (!fs.existsSync(yearDir)) return [];
+
+  return fs
+    .readdirSync(yearDir, { withFileTypes: true })
+    .filter(e => e.isDirectory())
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map(dir => {
+      const slugPath = path.join(yearDir, dir.name);
+      const photos = fs
+        .readdirSync(slugPath)
+        .filter(f => IMAGE_EXTS.has(path.extname(f).toLowerCase()))
+        .sort()
+        .map(f => `${BASE_PATH}/images/${year}/${dir.name}/${f}`);
+      return {
+        name: formatName(dir.name),
+        slug: dir.name,
+        cover: photos[0] ?? '',
+        count: photos.length,
+        photos,
+      };
+    })
+    .filter(m => m.count > 0);
+}
