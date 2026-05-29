@@ -24,12 +24,15 @@ interface StoryTimelineProps {
 export default function StoryTimeline({ entries }: StoryTimelineProps) {
   const sorted = [...entries].sort((a, b) => a.year - b.year);
 
+  const visible = sorted.filter(e =>
+    (e.photos?.length ?? 0) > 0 || (e.moments?.length ?? 0) > 0
+  );
+
   return (
     <div className="max-w-5xl mx-auto">
-      {sorted.map((entry, i) => {
+      {visible.map((entry, i) => {
         const hasPhotos  = (entry.photos?.length  ?? 0) > 0;
         const hasMoments = (entry.moments?.length ?? 0) > 0;
-        const isEmpty    = !hasPhotos && !hasMoments;
 
         return (
           <article
@@ -104,20 +107,6 @@ export default function StoryTimeline({ entries }: StoryTimelineProps) {
                 </div>
               )}
 
-              {/* Empty state */}
-              {isEmpty && (
-                <div
-                  className="flex items-center justify-center h-48 font-serif italic"
-                  style={{
-                    border: '1px dashed var(--line)',
-                    color: 'var(--ink-faint)',
-                    fontSize: '15px',
-                    borderRadius: '8px',
-                  }}
-                >
-                  Chưa có ảnh cho năm này
-                </div>
-              )}
             </div>
           </article>
         );

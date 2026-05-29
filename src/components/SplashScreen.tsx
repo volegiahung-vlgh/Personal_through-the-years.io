@@ -7,9 +7,9 @@ interface SplashScreenProps {
 }
 
 const LINES = [
-  'Loading our story   <span style="color:#e8b89a">done</span>',
-  'Visualization   <span style="color:#e8b89a">done</span>',
-  'Building memories   <span style="color:#e8b89a">done</span>',
+  { text: 'Loading our story', status: 'done' },
+  { text: 'Visualization',     status: 'done' },
+  { text: 'Building memories', status: 'done' },
 ];
 
 const LINE_DELAY   = 700;
@@ -26,7 +26,11 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
   const [gone,         setGone]         = useState(false);
 
   useEffect(() => {
-    // Pick a fresh random photo every time the page loads
+    if (sessionStorage.getItem('splashed') === '1') {
+      setGone(true);
+      return;
+    }
+
     if (photos.length) {
       setBg(photos[Math.floor(Math.random() * photos.length)]);
     }
@@ -37,7 +41,10 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
     setTimeout(() => setShowReady(true),  READY_DELAY);
     setTimeout(() => setBarFull(true),    READY_DELAY + 80);
     setTimeout(() => setFading(true),     FADE_DELAY);
-    setTimeout(() => setGone(true),       FADE_DELAY + 700);
+    setTimeout(() => {
+      setGone(true);
+      sessionStorage.setItem('splashed', '1');
+    }, FADE_DELAY + 700);
   }, []);
 
   if (gone) return null;
@@ -51,7 +58,6 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
         pointerEvents: fading ? 'none' : 'all',
       }}
     >
-      {/* Background photo */}
       {bg && (
         <img
           src={bg}
@@ -62,16 +68,13 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
         />
       )}
 
-      {/* Fallback solid colour if no photos */}
       {!bg && <div className="absolute inset-0" style={{ background: '#2b1f17' }} />}
 
-      {/* Dark vignette overlay */}
       <div
         className="absolute inset-0"
         style={{ background: 'radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%)' }}
       />
 
-      {/* Card */}
       <div
         className="relative rounded-2xl px-10 py-9 w-[480px] max-w-[90vw]"
         style={{
@@ -82,7 +85,6 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
           boxShadow: '0 8px 48px rgba(0,0,0,0.35)',
         }}
       >
-        {/* INITIALIZING label */}
         <p
           className="uppercase tracking-widest mb-3"
           style={{ fontSize: '11px', color: '#e8b89a', letterSpacing: '0.28em' }}
@@ -90,7 +92,6 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
           Initializing
         </p>
 
-        {/* Title */}
         <h1
           className="font-serif font-semibold mb-6"
           style={{ fontSize: '26px', color: '#fff' }}
@@ -98,7 +99,6 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
           Gia Hưng &amp; Bích Đào
         </h1>
 
-        {/* Lines */}
         <div className="space-y-2" style={{ fontFamily: 'monospace', fontSize: '14px', color: 'rgba(255,255,255,0.75)' }}>
           {LINES.map((line, i) => (
             <p
@@ -108,12 +108,12 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
                 transform: visibleLines > i ? 'translateY(0)' : 'translateY(6px)',
                 transition: 'opacity 0.4s ease, transform 0.4s ease',
               }}
-              dangerouslySetInnerHTML={{ __html: line }}
-            />
+            >
+              {line.text}&nbsp;&nbsp;<span style={{ color: '#e8b89a' }}>{line.status}</span>
+            </p>
           ))}
         </div>
 
-        {/* Progress bar */}
         {showReady && (
           <div
             className="mt-5 rounded-full overflow-hidden"
@@ -131,7 +131,6 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
           </div>
         )}
 
-        {/* READY */}
         {showReady && (
           <p
             className="mt-4 uppercase tracking-widest"

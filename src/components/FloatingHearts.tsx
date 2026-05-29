@@ -55,7 +55,7 @@ export default function FloatingHearts() {
           position: fixed;
           bottom: -40px;
           pointer-events: none;
-          z-index: 9999;
+          z-index: 10000;
           animation: floatHeart var(--dur) ease-in var(--delay) forwards;
           font-family: serif;
           line-height: 1;

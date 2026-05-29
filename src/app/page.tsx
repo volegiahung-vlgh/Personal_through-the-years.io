@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import QuoteCard from '@/components/QuoteCard';
 import HeroSection from '@/components/HeroSection';
+import LoveLetter from '@/components/LoveLetter';
 import { getAllPhotoSrcs } from '@/lib/photos';
 
 export default function HomePage() {
@@ -10,6 +11,30 @@ export default function HomePage() {
     <>
       {/* ── Hero ────────────────────────────────────────────── */}
       <HeroSection photos={allPhotos} />
+
+      {/* ── Love letter ────────────────────────────────────── */}
+      <section
+        className="py-24 px-6"
+        style={{ background: 'var(--bg)' }}
+      >
+        <div className="max-w-3xl mx-auto flex flex-col items-center">
+          <p
+            className="font-serif uppercase text-center mb-12"
+            style={{ color: 'var(--ink-faint)', letterSpacing: '0.42em', fontSize: '11px' }}
+          >
+            A letter for you
+          </p>
+          <div
+            className="w-full rounded-3xl py-16 px-6 flex flex-col items-center relative overflow-hidden"
+            style={{
+              background: 'linear-gradient(135deg, #fce8ee 0%, #faf0f4 50%, #fce8ee 100%)',
+              border: '1px solid rgba(155,29,66,0.12)',
+            }}
+          >
+            <LoveLetter />
+          </div>
+        </div>
+      </section>
 
       {/* ── Featured quote ─────────────────────────────────── */}
       <section

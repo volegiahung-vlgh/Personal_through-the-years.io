@@ -70,7 +70,7 @@ export default function MomentGallery({ moment, onClose }: Props) {
             </span>
             <button
               onClick={onClose}
-              className="flex items-center gap-2 font-serif uppercase text-[11px] tracking-widest transition-opacity hover:opacity-60"
+              className="flex items-center gap-2 font-serif uppercase text-[11px] tracking-widest transition-opacity hover:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--terracotta)] rounded"
               style={{ color: 'var(--ink-soft)', letterSpacing: '0.2em' }}
             >
               <span>Đóng</span>
@@ -86,7 +86,7 @@ export default function MomentGallery({ moment, onClose }: Props) {
               <button
                 key={i}
                 onClick={() => setLightboxIndex(i)}
-                className="group relative overflow-hidden rounded-lg focus:outline-none"
+                className="group relative overflow-hidden rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--terracotta)]"
                 style={{ aspectRatio: '1', background: 'var(--bg-deep)' }}
               >
                 <img
@@ -99,7 +99,10 @@ export default function MomentGallery({ moment, onClose }: Props) {
                 {/* Hover overlay */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
                      style={{ background: 'rgba(43,31,23,0.3)' }}>
-                  <span style={{ fontSize: '28px', color: '#fff' }}>⊕</span>
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                    <circle cx="14" cy="14" r="12.5" stroke="white" strokeWidth="1.5"/>
+                    <path d="M14 9v10M9 14h10" stroke="white" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
                 </div>
               </button>
             ))}
@@ -133,7 +136,7 @@ export default function MomentGallery({ moment, onClose }: Props) {
           {moment.photos.length > 1 && (
             <button
               onClick={e => { e.stopPropagation(); prev(); }}
-              className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full transition-all hover:opacity-80"
+              className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full transition-all hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', fontSize: '22px' }}
             >
               ‹
@@ -144,7 +147,7 @@ export default function MomentGallery({ moment, onClose }: Props) {
           {moment.photos.length > 1 && (
             <button
               onClick={e => { e.stopPropagation(); next(); }}
-              className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full transition-all hover:opacity-80"
+              className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full transition-all hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
               style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', fontSize: '22px' }}
             >
               ›
@@ -154,7 +157,7 @@ export default function MomentGallery({ moment, onClose }: Props) {
           {/* Close */}
           <button
             onClick={() => setLightboxIndex(null)}
-            className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full transition-all hover:opacity-70"
+            className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full transition-all hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', fontSize: '20px' }}
           >
             ×

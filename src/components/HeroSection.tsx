@@ -34,9 +34,9 @@ export default function HeroSection({ photos }: HeroSectionProps) {
         />
       )}
 
-      {/* Fallback when no photo yet */}
+      {/* Fallback when no photo yet — dark so the transition isn't jarring */}
       {!bg && (
-        <div className="absolute inset-0" style={{ background: 'var(--bg)' }} />
+        <div className="absolute inset-0" style={{ background: '#2b1f17' }} />
       )}
 
       {/* Warm gradient overlay — darker at top/bottom, lighter in centre */}
@@ -99,29 +99,15 @@ export default function HeroSection({ photos }: HeroSectionProps) {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             href="/story-of-love"
-            className="inline-flex items-center gap-3 px-8 py-4 font-serif uppercase text-[12px] border transition-all duration-300"
-            style={{ borderColor: 'rgba(255,255,255,0.7)', color: '#fff', letterSpacing: '0.32em' }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.15)';
-              (e.currentTarget as HTMLElement).style.borderColor = '#fff';
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.background = 'transparent';
-              (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.7)';
-            }}
+            className="hero-btn-primary inline-flex items-center gap-3 px-8 py-4 font-serif uppercase text-[12px] border transition-all duration-300"
+            style={{ letterSpacing: '0.32em' }}
           >
             Our Story
           </Link>
           <Link
             href="/about"
-            className="inline-flex items-center gap-3 px-8 py-4 font-serif uppercase text-[12px] border transition-all duration-300"
-            style={{ borderColor: '#e8b89a', color: '#e8b89a', letterSpacing: '0.32em' }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLElement).style.background = 'rgba(232,184,154,0.15)';
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLElement).style.background = 'transparent';
-            }}
+            className="hero-btn-secondary inline-flex items-center gap-3 px-8 py-4 font-serif uppercase text-[12px] border transition-all duration-300"
+            style={{ letterSpacing: '0.32em' }}
           >
             About
           </Link>
