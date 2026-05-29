@@ -1,5 +1,3 @@
-import Image from 'next/image';
-
 interface Photo {
   src: string;
   alt: string;
@@ -33,12 +31,12 @@ export default function PhotoGallery({ photos, className = '' }: PhotoGalleryPro
               className={`relative w-full ${aspect} overflow-hidden`}
               style={{ background: 'var(--bg-deep)' }}
             >
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={photo.src}
                 alt={photo.alt}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover photo-warm transition-transform duration-700 group-hover:scale-105"
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-cover photo-warm transition-transform duration-700 group-hover:scale-105"
               />
             </div>
 

@@ -17,6 +17,7 @@ function fix(file) {
   const fixed = original
     .replace(/"\/_next\//g, '"_next/')
     .replace(/'\/_next\//g, "'_next/")
+    .replace(/"\/Personal_through-the-years\.io\/images\//g, '"images/')
     .replace(/"\/images\//g, '"images/')
     .replace(/"\/favicon/g, '"favicon');
   if (fixed !== original) {
