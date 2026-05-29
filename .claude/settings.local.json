@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\hung.vo\\\\Desktop\\\\Project\" -ErrorAction SilentlyContinue; if \\(-not \\(Test-Path \"C:\\\\Users\\\\hung.vo\\\\Desktop\\\\Project\"\\)\\) { Write-Host \"Directory is empty or does not exist\" })",
+      "Bash(npm install *)",
+      "Bash(nvm list *)",
+      "Read(//c/Users/hung.vo/.nvm/versions/**)",
+      "Read(//c/Program Files/nodejs//**)",
+      "Read(//c/Users/hung.vo/AppData/Roaming/**)",
+      "Bash(\"/c/Program Files/nodejs/npm.cmd\" install)",
+      "Bash(PATH='/c/Program Files/nodejs:__TRACKED_VAR__' '/c/Program Files/nodejs/npm.cmd' install)",
+      "Bash(PATH='/c/Program Files/nodejs:__TRACKED_VAR__' '/c/Program Files/nodejs/npx.cmd' tsc --noEmit)",
+      "Bash(PATH='/c/Program Files/nodejs:__TRACKED_VAR__' '/c/Program Files/nodejs/npm.cmd' run build)",
+      "PowerShell(2021,2022,2023,2024,2025,2026 | ForEach-Object { New-Item -ItemType Directory -Path \"C:\\\\Users\\\\hung.vo\\\\Desktop\\\\Project\\\\public\\\\images\\\\$_\" -Force })",
+      "Bash(npm run *)",
+      "PowerShell($env:Path = [System.Environment]::GetEnvironmentVariable\\(\"Path\",\"Machine\"\\) + \";\" + [System.Environment]::GetEnvironmentVariable\\(\"Path\",\"User\"\\); Set-Location \"C:\\\\Users\\\\hung.vo\\\\Desktop\\\\Project\"; npm run build)"
+    ]
+  }
+}
