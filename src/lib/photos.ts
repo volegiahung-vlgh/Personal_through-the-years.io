@@ -12,9 +12,21 @@ function isLovePhoto(filename: string): boolean {
   return LOVE_KEYWORDS.some(kw => lower.includes(kw));
 }
 
+/** Load caption map for a given year from src/content/captions/<year>.json */
+function loadCaptions(year: number): Record<string, string> {
+  try {
+    const p = path.join(process.cwd(), 'src', 'content', 'captions', `${year}.json`);
+    if (!fs.existsSync(p)) return {};
+    return JSON.parse(fs.readFileSync(p, 'utf-8'));
+  } catch {
+    return {};
+  }
+}
+
 /**
  * Photos placed in /public/images/<year>/ belong to that year.
  * Excludes: files already inside an album subfolder, and love-tagged files.
+ * Attaches captions from src/content/captions/<year>.json when present.
  */
 export function getPhotosForYear(year: number) {
   const dir = path.join(process.cwd(), 'public', 'images', String(year));
@@ -30,17 +42,20 @@ export function getPhotosForYear(year: number) {
         .forEach(f => inAlbum.add(f.toLowerCase()));
     });
 
+  const captions = loadCaptions(year);
+
   return fs
     .readdirSync(dir)
     .filter(file =>
       IMAGE_EXTS.has(path.extname(file).toLowerCase()) &&
-      !inAlbum.has(file.toLowerCase()) &&   // skip if already in an album
-      !isLovePhoto(file)                     // skip love-tagged photos
+      !inAlbum.has(file.toLowerCase()) &&
+      !isLovePhoto(file)
     )
     .sort()
     .map(file => ({
-      src: `${BASE_PATH}/images/${year}/${file}`,
-      alt: `${year} — ${path.basename(file, path.extname(file))}`,
+      src:     `${BASE_PATH}/images/${year}/${file}`,
+      alt:     `${year} — ${path.basename(file, path.extname(file))}`,
+      caption: captions[file] ?? undefined,
     }));
 }
 
