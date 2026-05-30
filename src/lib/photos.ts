@@ -13,9 +13,22 @@ export function getPhotosForYear(year: number) {
 
   if (!fs.existsSync(dir)) return [];
 
+  // Collect all filenames already inside album subfolders
+  const inAlbum = new Set<string>();
+  fs.readdirSync(dir, { withFileTypes: true })
+    .filter(e => e.isDirectory())
+    .forEach(subDir => {
+      fs.readdirSync(path.join(dir, subDir.name))
+        .filter(f => IMAGE_EXTS.has(path.extname(f).toLowerCase()))
+        .forEach(f => inAlbum.add(f.toLowerCase()));
+    });
+
   return fs
     .readdirSync(dir)
-    .filter(file => IMAGE_EXTS.has(path.extname(file).toLowerCase()))
+    .filter(file =>
+      IMAGE_EXTS.has(path.extname(file).toLowerCase()) &&
+      !inAlbum.has(file.toLowerCase())   // skip if already in an album
+    )
     .sort()
     .map(file => ({
       src: `${BASE_PATH}/images/${year}/${file}`,
