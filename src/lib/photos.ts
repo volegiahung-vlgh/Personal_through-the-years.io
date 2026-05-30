@@ -123,13 +123,15 @@ function formatName(slug: string): string {
 
 /** Photos from the Phú Quý trip folder specifically */
 export function getPhuQuyPhotos(): string[] {
-  const dir = path.join(process.cwd(), 'public', 'images', '2026', 'Chuyến du lịch Phú Quý');
+  const folderName = 'Chuyến du lịch Phú Quý';
+  const dir = path.join(process.cwd(), 'public', 'images', '2026', folderName);
   if (!fs.existsSync(dir)) return [];
+  const encodedFolder = encodeURIComponent(folderName);
   return fs
     .readdirSync(dir)
     .filter(f => IMAGE_EXTS.has(path.extname(f).toLowerCase()))
     .sort()
-    .map(f => `${BASE_PATH}/images/2026/Chuyến du lịch Phú Quý/${f}`);
+    .map(f => `${BASE_PATH}/images/2026/${encodedFolder}/${encodeURIComponent(f)}`);
 }
 
 export function getMomentsForYear(year: number): Moment[] {
