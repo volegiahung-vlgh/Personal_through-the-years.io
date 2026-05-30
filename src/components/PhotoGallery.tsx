@@ -26,19 +26,15 @@ export default function PhotoGallery({ photos, className = '' }: PhotoGalleryPro
       {photos.map((photo, i) => {
         const aspect = aspectMap[photo.orientation ?? 'portrait'];
         return (
-          <figure key={i} className="group relative overflow-hidden">
-            <div
-              className={`relative w-full ${aspect} overflow-hidden`}
+          <figure key={i} className="group relative overflow-hidden rounded-lg">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={photo.src}
+              alt={photo.alt}
+              loading="lazy"
+              className="w-full h-auto block photo-warm transition-transform duration-700 group-hover:scale-105"
               style={{ background: 'var(--bg-deep)' }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover photo-warm transition-transform duration-700 group-hover:scale-105"
-              />
-            </div>
+            />
 
             {photo.caption && (
               <figcaption
