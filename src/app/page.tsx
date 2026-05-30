@@ -2,15 +2,20 @@ import Link from 'next/link';
 import QuoteCard from '@/components/QuoteCard';
 import HeroSection from '@/components/HeroSection';
 import LoveLetter from '@/components/LoveLetter';
-import { getAllPhotoSrcs } from '@/lib/photos';
+import DayCounterHero from '@/components/DayCounterHero';
+import { getAllPhotoSrcs, getPhuQuyPhotos } from '@/lib/photos';
 
 export default function HomePage() {
-  const allPhotos = getAllPhotoSrcs();
+  const allPhotos    = getAllPhotoSrcs();
+  const phuQuyPhotos = getPhuQuyPhotos();
 
   return (
     <>
       {/* ── Hero ────────────────────────────────────────────── */}
-      <HeroSection photos={allPhotos} />
+      <HeroSection photos={phuQuyPhotos.length ? phuQuyPhotos : allPhotos} />
+
+      {/* ── Day counter (fullscreen) ────────────────────────── */}
+      <DayCounterHero photos={phuQuyPhotos.length ? phuQuyPhotos : allPhotos} />
 
       {/* ── Love letter ────────────────────────────────────── */}
       <section

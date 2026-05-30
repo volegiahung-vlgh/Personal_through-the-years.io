@@ -121,6 +121,17 @@ function formatName(slug: string): string {
     .replace(/\b\w/g, c => c.toUpperCase());
 }
 
+/** Photos from the Phú Quý trip folder specifically */
+export function getPhuQuyPhotos(): string[] {
+  const dir = path.join(process.cwd(), 'public', 'images', '2026', 'Chuyến du lịch Phú Quý');
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter(f => IMAGE_EXTS.has(path.extname(f).toLowerCase()))
+    .sort()
+    .map(f => `${BASE_PATH}/images/2026/Chuyến du lịch Phú Quý/${f}`);
+}
+
 export function getMomentsForYear(year: number): Moment[] {
   const yearDir = path.join(process.cwd(), 'public', 'images', String(year));
   if (!fs.existsSync(yearDir)) return [];

@@ -29,7 +29,7 @@ export default function Footer() {
           className="font-script leading-tight mb-3"
           style={{ fontSize: '40px', color: 'var(--bg-cream)' }}
         >
-          Kept
+          Together
         </div>
 
         {/* Tagline */}

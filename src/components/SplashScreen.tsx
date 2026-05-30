@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 interface SplashScreenProps {
   photos: string[];
@@ -12,16 +12,87 @@ const LINES = [
   { text: 'Building memories', status: 'done' },
 ];
 
-const LINE_DELAY   = 700;
-const READY_DELAY  = LINE_DELAY * LINES.length + 400;
-const BAR_DURATION = 1200;
-const FADE_DELAY   = READY_DELAY + BAR_DURATION + 600;
+const LINE_DELAY    = 700;
+const LINE_FILL_MS  = 550;   // how long each line's mini-bar takes to fill
+const READY_DELAY   = LINE_DELAY * LINES.length + LINE_FILL_MS + 400;
+const BAR_DURATION  = 1200;
+const FADE_DELAY    = READY_DELAY + BAR_DURATION + 600;
+
+// Each line's mini progress bar
+function LineItem({ text, visible }: { text: string; visible: boolean }) {
+  const [filled, setFilled] = useState(false);
+  const triggered = useRef(false);
+
+  useEffect(() => {
+    if (visible && !triggered.current) {
+      triggered.current = true;
+      // Small delay so the line fades in first, then bar starts
+      const t = setTimeout(() => setFilled(true), 120);
+      return () => clearTimeout(t);
+    }
+  }, [visible]);
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        opacity: visible ? 1 : 0,
+        transform: visible ? 'translateY(0)' : 'translateY(6px)',
+        transition: 'opacity 0.35s ease, transform 0.35s ease',
+        fontFamily: 'monospace',
+        fontSize: '13px',
+        color: 'rgba(255,255,255,0.70)',
+      }}
+    >
+      {/* Label */}
+      <span style={{ flex: '0 0 auto', minWidth: '150px' }}>{text}</span>
+
+      {/* Mini battery / progress bar */}
+      <div
+        style={{
+          flex: '1',
+          height: '6px',
+          borderRadius: '3px',
+          background: 'rgba(255,255,255,0.10)',
+          border: '1px solid rgba(255,255,255,0.14)',
+          overflow: 'hidden',
+          maxWidth: '120px',
+        }}
+      >
+        <div
+          style={{
+            height: '100%',
+            width: filled ? '100%' : '0%',
+            background: 'linear-gradient(90deg, #b85c3d 0%, #e8b89a 100%)',
+            borderRadius: '3px',
+            transition: `width ${LINE_FILL_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`,
+          }}
+        />
+      </div>
+
+      {/* Percentage */}
+      <span
+        style={{
+          minWidth: '36px',
+          color: filled ? '#e8b89a' : 'rgba(255,255,255,0.25)',
+          transition: 'color 0.3s ease',
+          fontSize: '12px',
+        }}
+      >
+        {filled ? '100%' : '  0%'}
+      </span>
+    </div>
+  );
+}
 
 export default function SplashScreen({ photos }: SplashScreenProps) {
   const [bg,           setBg]          = useState<string | null>(null);
   const [visibleLines, setVisibleLines] = useState(0);
   const [showReady,    setShowReady]    = useState(false);
   const [barFull,      setBarFull]      = useState(false);
+  const [showPrompt,   setShowPrompt]   = useState(false);
   const [fading,       setFading]       = useState(false);
   const [gone,         setGone]         = useState(false);
 
@@ -38,14 +109,20 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
     LINES.forEach((_, i) => {
       setTimeout(() => setVisibleLines(i + 1), LINE_DELAY * (i + 1));
     });
-    setTimeout(() => setShowReady(true),  READY_DELAY);
-    setTimeout(() => setBarFull(true),    READY_DELAY + 80);
-    setTimeout(() => setFading(true),     FADE_DELAY);
+    setTimeout(() => setShowReady(true), READY_DELAY);
+    setTimeout(() => setBarFull(true),   READY_DELAY + 80);
+    // Show prompt after bar finishes
+    setTimeout(() => setShowPrompt(true), READY_DELAY + 80 + BAR_DURATION + 200);
+  }, []);
+
+  const handleDismiss = () => {
+    if (!showPrompt) return;
+    setFading(true);
     setTimeout(() => {
       setGone(true);
       sessionStorage.setItem('splashed', '1');
-    }, FADE_DELAY + 700);
-  }, []);
+    }, 700);
+  };
 
   if (gone) return null;
 
@@ -56,7 +133,9 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
         transition: 'opacity 0.7s ease',
         opacity: fading ? 0 : 1,
         pointerEvents: fading ? 'none' : 'all',
+        cursor: showPrompt ? 'pointer' : 'default',
       }}
+      onClick={handleDismiss}
     >
       {bg && (
         <img
@@ -99,18 +178,9 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
           Gia Hưng &amp; Bích Đào
         </h1>
 
-        <div className="space-y-2" style={{ fontFamily: 'monospace', fontSize: '14px', color: 'rgba(255,255,255,0.75)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {LINES.map((line, i) => (
-            <p
-              key={i}
-              style={{
-                opacity: visibleLines > i ? 1 : 0,
-                transform: visibleLines > i ? 'translateY(0)' : 'translateY(6px)',
-                transition: 'opacity 0.4s ease, transform 0.4s ease',
-              }}
-            >
-              {line.text}&nbsp;&nbsp;<span style={{ color: '#e8b89a' }}>{line.status}</span>
-            </p>
+            <LineItem key={i} text={line.text} visible={visibleLines > i} />
           ))}
         </div>
 
@@ -140,6 +210,56 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
           </p>
         )}
       </div>
+
+      {/* Click-to-continue prompt */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: '40px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          opacity: showPrompt ? 1 : 0,
+          transition: 'opacity 0.6s ease',
+          pointerEvents: 'none',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '10px',
+        }}
+      >
+        <p
+          style={{
+            fontFamily: 'Georgia, serif',
+            fontSize: '12px',
+            fontStyle: 'italic',
+            color: 'rgba(255,255,255,0.55)',
+            letterSpacing: '0.12em',
+            whiteSpace: 'nowrap',
+            animation: showPrompt ? 'promptPulse 2s ease-in-out infinite' : 'none',
+          }}
+        >
+          Click anywhere to continue
+        </p>
+        <div
+          style={{
+            width: '1px',
+            height: '28px',
+            background: 'linear-gradient(to bottom, rgba(255,255,255,0.45), transparent)',
+            animation: showPrompt ? 'promptLine 2s ease-in-out infinite' : 'none',
+          }}
+        />
+      </div>
+
+      <style>{`
+        @keyframes promptPulse {
+          0%, 100% { opacity: 0.45; }
+          50%       { opacity: 0.85; }
+        }
+        @keyframes promptLine {
+          0%, 100% { opacity: 0.3; transform: scaleY(0.7); }
+          50%       { opacity: 0.7; transform: scaleY(1);   }
+        }
+      `}</style>
     </div>
   );
 }

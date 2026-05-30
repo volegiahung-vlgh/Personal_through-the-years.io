@@ -22,7 +22,7 @@ interface StoryTimelineProps {
 }
 
 export default function StoryTimeline({ entries }: StoryTimelineProps) {
-  const sorted = [...entries].sort((a, b) => a.year - b.year);
+  const sorted = [...entries].sort((a, b) => b.year - a.year);
 
   const visible = sorted.filter(e =>
     (e.photos?.length ?? 0) > 0 || (e.moments?.length ?? 0) > 0

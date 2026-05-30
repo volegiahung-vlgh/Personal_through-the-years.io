@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 const links = [
   { href: '/',               label: 'Home' },
   { href: '/story-of-love', label: 'Our Story' },
-  { href: '/our-memories',  label: 'Kỷ Niệm' },
+  { href: '/our-memories',  label: 'Memories' },
   { href: '/about',          label: 'About' },
 ];
 
@@ -47,7 +47,7 @@ export default function Navbar() {
         className="font-script text-[30px] leading-none transition-colors duration-300"
         style={{ color: heroMode ? '#e8b89a' : 'var(--terracotta-deep)' }}
       >
-        Kept
+        Together
       </Link>
 
       {/* Desktop nav */}
