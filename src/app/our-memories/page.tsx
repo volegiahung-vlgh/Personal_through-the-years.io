@@ -3,6 +3,7 @@ import FoodTimeline from '@/components/FoodTimeline';
 import LoveWordsTimeline from '@/components/LoveWordsTimeline';
 import foodData from '@/content/our-memories/food.json';
 import loveWordsData from '@/content/our-memories/love-words.json';
+import { getLovePhotos } from '@/lib/photos';
 
 export const metadata = {
   title: 'Kỷ Niệm · Through the Years',
@@ -10,6 +11,7 @@ export const metadata = {
 };
 
 export default function OurMemoriesPage() {
+  const lovePhotos = getLovePhotos();
   return (
     <div style={{ background: 'var(--bg)' }} className="min-h-screen">
       <FloatingHearts />
@@ -142,6 +144,31 @@ export default function OurMemoriesPage() {
             Những điều anh muốn nói với em —
             giữ lại đây, để không bao giờ quên.
           </p>
+
+          {/* Love photos gallery */}
+          {lovePhotos.length > 0 && (
+            <div className="mb-12">
+              <p className="font-serif uppercase text-center mb-6"
+                 style={{ fontSize: '11px', color: 'var(--ink-faint)', letterSpacing: '0.38em' }}>
+                Khoảnh khắc
+              </p>
+              <div className="columns-2 sm:columns-3 gap-4 space-y-4">
+                {lovePhotos.map((src, i) => (
+                  <div key={i} className="break-inside-avoid overflow-hidden rounded-2xl"
+                       style={{ border: '1px solid rgba(155,29,66,0.10)' }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={src}
+                      alt={`Khoảnh khắc ${i + 1}`}
+                      loading="lazy"
+                      className="w-full h-auto block"
+                      style={{ filter: 'sepia(0.08) saturate(0.95)' }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
 
           <LoveWordsTimeline words={loveWordsData} />
         </div>
