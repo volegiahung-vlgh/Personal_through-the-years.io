@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "emoji": "🍜",
+    "photo": null,
+    "name": "Phở bò tái nạm",
+    "place": "Phở Hùng, Quận 1",
+    "note": "Tô phở đầu tiên bọn mình ăn cùng nhau lúc 7 giờ sáng — em còn bỡ ngỡ chưa biết gọi thêm gì."
+  },
+  {
+    "id": 2,
+    "emoji": "🧋",
+    "photo": null,
+    "name": "Trà sữa trân châu",
+    "place": "Gong Cha, Nguyễn Huệ",
+    "note": "Anh mua tặng em vì em than nóng. Size lớn luôn, không cần hỏi."
+  },
+  {
+    "id": 3,
+    "emoji": "🍚",
+    "photo": null,
+    "name": "Cơm tấm sườn bì chả",
+    "place": "Cơm Tấm Mộc, Quận 3",
+    "note": "Món này bọn mình ăn nhiều nhất — cứ không biết ăn gì là ghé đây."
+  },
+  {
+    "id": 4,
+    "emoji": "🫕",
+    "photo": null,
+    "name": "Lẩu tôm chua",
+    "place": "Nhà hàng Mekong, Quận 7",
+    "note": "Ngồi đến khi quán gần đóng cửa mà vẫn chưa muốn về."
+  },
+  {
+    "id": 5,
+    "emoji": "🍰",
+    "photo": null,
+    "name": "Bánh tiramisu",
+    "place": "The Workshop, Đồng Khởi",
+    "note": "Ngày sinh nhật em. Anh order bí mật từ buổi sáng. Mặt em lúc mang ra — anh nhớ mãi."
+  },
+  {
+    "id": 6,
+    "emoji": "🥘",
+    "photo": null,
+    "name": "Bún bò Huế",
+    "place": "Quán Mệ Tý, Huế",
+    "note": "Tô bún bò ăn lúc 6 giờ sáng, trời còn sương, mà ngon đến không tưởng."
+  },
+  {
+    "id": 7,
+    "emoji": "🥖",
+    "photo": null,
+    "name": "Bánh mì kẹp trứng",
+    "place": "Bánh Mì Phượng, Hội An",
+    "note": "Xếp hàng 20 phút. Em bảo xứng đáng. Thật ra anh thích đứng chờ cùng em hơn."
+  },
+  {
+    "id": 8,
+    "emoji": "🍲",
+    "photo": null,
+    "name": "Canh chua cá bông lau",
+    "place": "Bếp nhà mình",
+    "note": "Em nấu lần đầu. Anh ăn hai tô rưỡi. Ngon thật — không phải khen lấy lòng đâu."
+  },
+  {
+    "id": 9,
+    "emoji": "🧇",
+    "photo": null,
+    "name": "Bánh waffle kem vanilla",
+    "place": "Maison Marou, Quận 3",
+    "note": "Sáng cuối tuần. Cà phê + waffle + không cần đi đâu vội. Kiểu hạnh phúc đơn giản nhất."
+  },
+  {
+    "id": 10,
+    "emoji": "☕",
+    "photo": null,
+    "name": "Cà phê trứng",
+    "place": "Giang Café, Hà Nội",
+    "note": "Em nhăn mặt rồi sau đó khen ngon — kiểu phản ứng anh thích nhất của em."
+  },
+  {
+    "id": 11,
+    "emoji": "🥩",
+    "photo": null,
+    "name": "Bít tết bơ tỏi",
+    "place": "The Steak House, Tây Hồ",
+    "note": "Kỷ niệm 4 năm. Em mặc đầm đỏ. Đẹp nhất hôm đó — đẹp nhất anh từng thấy."
+  }
+]
