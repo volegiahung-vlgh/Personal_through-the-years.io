@@ -60,18 +60,6 @@ export default function MemoriesPlaylist({ tracks }: MemoriesPlaylistProps) {
         </div>
       ))}
 
-      <p
-        className="font-serif italic text-center pt-2"
-        style={{ fontSize: '13px', color: 'var(--ink-faint)' }}
-      >
-        Thêm bài hát trong{' '}
-        <code
-          className="font-mono not-italic px-1 rounded"
-          style={{ fontSize: '12px', background: 'rgba(43,31,23,0.07)' }}
-        >
-          src/content/our-memories/playlist.json
-        </code>
-      </p>
     </div>
   );
 }

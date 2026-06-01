@@ -75,19 +75,6 @@ export default function MemoriesMap({ places }: MemoriesMapProps) {
         </div>
       ))}
 
-      {/* Add-more hint */}
-      <p
-        className="font-serif italic text-center pt-2"
-        style={{ fontSize: '13px', color: 'var(--ink-faint)', letterSpacing: '0.02em' }}
-      >
-        Thêm địa điểm mới trong{' '}
-        <code
-          className="font-mono not-italic px-1 rounded"
-          style={{ fontSize: '12px', background: 'rgba(43,31,23,0.07)' }}
-        >
-          src/content/our-memories/places.json
-        </code>
-      </p>
     </div>
   );
 }
