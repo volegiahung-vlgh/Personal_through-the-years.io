@@ -1,13 +1,17 @@
 import FloatingHearts from '@/components/FloatingHearts';
 import FoodTimeline from '@/components/FoodTimeline';
 import LoveWordsTimeline from '@/components/LoveWordsTimeline';
+import MemoriesMap from '@/components/MemoriesMap';
+import MemoriesPlaylist from '@/components/MemoriesPlaylist';
 import foodData from '@/content/our-memories/food.json';
 import loveWordsData from '@/content/our-memories/love-words.json';
+import placesData from '@/content/our-memories/places.json';
+import playlistData from '@/content/our-memories/playlist.json';
 import { getLovePhotos } from '@/lib/photos';
 
 export const metadata = {
   title: 'Kỷ Niệm · Through the Years',
-  description: 'Những món ngon bọn mình đã ăn và những lời thương gửi trao.',
+  description: 'Những món ngon, những lời thương, những nơi đã đến và những bản nhạc đã nghe.',
 };
 
 export default function OurMemoriesPage() {
@@ -40,7 +44,7 @@ export default function OurMemoriesPage() {
             letterSpacing: '-0.01em',
           }}
         >
-          những món ngon & những lời thương.
+          những nơi đã đến, những điều đã nghe & những lời thương.
         </h1>
 
         <div className="ornament-rule mt-8 max-w-xs mx-auto">
@@ -54,50 +58,76 @@ export default function OurMemoriesPage() {
           className="font-serif italic mt-8 max-w-xl mx-auto"
           style={{ fontSize: '18px', color: 'var(--ink-soft)', lineHeight: '1.8' }}
         >
-          Những tô phở sáng sớm, những tách cà phê chiều muộn,
-          và tất cả những điều anh chưa kịp nói — đều được giữ lại ở đây.
+          Những tô phở sáng sớm, những chuyến đi xa, những bản nhạc cũ —
+          và tất cả những điều anh chưa kịp nói.
         </p>
 
         {/* Jump anchors */}
-        <div className="flex items-center justify-center gap-6 mt-10">
-          <a
-            href="#mon-ngon"
-            className="font-serif uppercase text-[11px] pb-1"
-            style={{ color: 'var(--terracotta-deep)', letterSpacing: '0.35em', borderBottom: '1px solid var(--terracotta)' }}
-          >
-            Những Món Ngon ↓
-          </a>
-          <span style={{ color: 'var(--ink-faint)' }}>·</span>
-          <a
-            href="#loi-thuong"
-            className="font-serif uppercase text-[11px] pb-1"
-            style={{ color: 'var(--terracotta-deep)', letterSpacing: '0.35em', borderBottom: '1px solid var(--terracotta)' }}
-          >
-            Những Lời Thương ↓
-          </a>
+        <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mt-10">
+          {[
+            { href: '#ban-do', label: 'Những Nơi Đã Đến' },
+            { href: '#nhac', label: 'Âm Nhạc' },
+            { href: '#mon-ngon', label: 'Những Món Ngon' },
+            { href: '#loi-thuong', label: 'Những Lời Thương' },
+          ].map(({ href, label }) => (
+            <a
+              key={href}
+              href={href}
+              className="font-serif uppercase text-[11px] pb-1"
+              style={{ color: 'var(--terracotta-deep)', letterSpacing: '0.35em', borderBottom: '1px solid var(--terracotta)' }}
+            >
+              {label} ↓
+            </a>
+          ))}
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════════════ */}
-      {/* ── Section 1 : Những Món Ngon ──────────────────────── */}
+      {/* ── Section 1 : Bản đồ ──────────────────────────────── */}
+      {/* ══════════════════════════════════════════════════════ */}
+      <section id="ban-do" className="py-20 px-6">
+        <div className="max-w-3xl mx-auto">
+          <SectionTitle eyebrow="Hành trình" title="Những Nơi Đã Đến" />
+          <p
+            className="font-serif italic text-center mb-12"
+            style={{ fontSize: '16px', color: 'var(--ink-soft)', maxWidth: '460px', margin: '12px auto 48px' }}
+          >
+            Mỗi chuyến đi là một trang mới —
+            những nơi bọn mình đã cùng nhau đặt chân đến.
+          </p>
+          <MemoriesMap places={placesData} />
+        </div>
+      </section>
+
+      {/* Divider */}
+      <Divider />
+
+      {/* ══════════════════════════════════════════════════════ */}
+      {/* ── Section 2 : Âm nhạc ─────────────────────────────── */}
+      {/* ══════════════════════════════════════════════════════ */}
+      <section id="nhac" className="py-20 px-6">
+        <div className="max-w-2xl mx-auto">
+          <SectionTitle eyebrow="Những bản nhạc" title="Âm Nhạc" />
+          <p
+            className="font-serif italic text-center mb-12"
+            style={{ fontSize: '16px', color: 'var(--ink-soft)', maxWidth: '460px', margin: '12px auto 48px' }}
+          >
+            Những bài hát đánh dấu từng giai đoạn —
+            nghe lại là nhớ ngay.
+          </p>
+          <MemoriesPlaylist tracks={playlistData} />
+        </div>
+      </section>
+
+      {/* Divider */}
+      <Divider />
+
+      {/* ══════════════════════════════════════════════════════ */}
+      {/* ── Section 3 : Những Món Ngon ──────────────────────── */}
       {/* ══════════════════════════════════════════════════════ */}
       <section id="mon-ngon" className="py-20 px-6">
         <div className="max-w-5xl mx-auto">
-
-          {/* Section title */}
-          <div className="flex items-center gap-6 mb-4">
-            <div style={{ flex: 1, height: '1px', background: 'var(--rule)' }} />
-            <div className="text-center shrink-0">
-              <p className="font-serif uppercase" style={{ fontSize: '11px', color: 'var(--ink-faint)', letterSpacing: '0.42em' }}>
-                Nhật ký ẩm thực
-              </p>
-              <div className="font-script mt-1" style={{ fontSize: '42px', color: 'var(--terracotta)', lineHeight: 1.1 }}>
-                Những Món Ngon
-              </div>
-            </div>
-            <div style={{ flex: 1, height: '1px', background: 'var(--rule)' }} />
-          </div>
-
+          <SectionTitle eyebrow="Nhật ký ẩm thực" title="Những Món Ngon" />
           <p
             className="font-serif italic text-center mb-12"
             style={{ fontSize: '16px', color: 'var(--ink-soft)', maxWidth: '480px', margin: '12px auto 48px' }}
@@ -105,38 +135,19 @@ export default function OurMemoriesPage() {
             Từ tô phở sáng sớm đến bữa tối kỷ niệm —
             những món ăn cứ thế trở thành ký ức.
           </p>
-
           <FoodTimeline dishes={foodData} />
         </div>
       </section>
 
       {/* Divider band */}
-      <div className="py-14 text-center" style={{ background: 'var(--bg-cream)' }}>
-        <span className="font-script" style={{ fontSize: '44px', color: 'var(--terracotta)', opacity: 0.55 }}>
-          ✦ &nbsp; ♥ &nbsp; ✦
-        </span>
-      </div>
+      <Divider />
 
       {/* ══════════════════════════════════════════════════════ */}
-      {/* ── Section 2 : Những Lời Thương ────────────────────── */}
+      {/* ── Section 4 : Những Lời Thương ────────────────────── */}
       {/* ══════════════════════════════════════════════════════ */}
       <section id="loi-thuong" className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
-
-          {/* Section title */}
-          <div className="flex items-center gap-6 mb-4">
-            <div style={{ flex: 1, height: '1px', background: 'var(--rule)' }} />
-            <div className="text-center shrink-0">
-              <p className="font-serif uppercase" style={{ fontSize: '11px', color: 'var(--ink-faint)', letterSpacing: '0.42em' }}>
-                Từ trái tim anh
-              </p>
-              <div className="font-script mt-1" style={{ fontSize: '42px', color: 'var(--terracotta)', lineHeight: 1.1 }}>
-                Những Lời Thương
-              </div>
-            </div>
-            <div style={{ flex: 1, height: '1px', background: 'var(--rule)' }} />
-          </div>
-
+          <SectionTitle eyebrow="Từ trái tim anh" title="Những Lời Thương" />
           <p
             className="font-serif italic text-center mb-12"
             style={{ fontSize: '16px', color: 'var(--ink-soft)', maxWidth: '480px', margin: '12px auto 48px' }}
@@ -145,7 +156,6 @@ export default function OurMemoriesPage() {
             giữ lại đây, để không bao giờ quên.
           </p>
 
-          {/* Love photos gallery */}
           {lovePhotos.length > 0 && (
             <div className="mb-12">
               <p className="font-serif uppercase text-center mb-6"
@@ -190,6 +200,33 @@ export default function OurMemoriesPage() {
           — Gia Hưng ♥ Bích Đào —
         </p>
       </section>
+    </div>
+  );
+}
+
+function SectionTitle({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return (
+    <div className="flex items-center gap-6 mb-4">
+      <div style={{ flex: 1, height: '1px', background: 'var(--rule)' }} />
+      <div className="text-center shrink-0">
+        <p className="font-serif uppercase" style={{ fontSize: '11px', color: 'var(--ink-faint)', letterSpacing: '0.42em' }}>
+          {eyebrow}
+        </p>
+        <div className="font-script mt-1" style={{ fontSize: '42px', color: 'var(--terracotta)', lineHeight: 1.1 }}>
+          {title}
+        </div>
+      </div>
+      <div style={{ flex: 1, height: '1px', background: 'var(--rule)' }} />
+    </div>
+  );
+}
+
+function Divider() {
+  return (
+    <div className="py-14 text-center" style={{ background: 'var(--bg-cream)' }}>
+      <span className="font-script" style={{ fontSize: '44px', color: 'var(--terracotta)', opacity: 0.55 }}>
+        ✦ &nbsp; ♥ &nbsp; ✦
+      </span>
     </div>
   );
 }

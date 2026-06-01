@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Tên bài hát",
+    "artist": "Ca sĩ",
+    "year": 2022,
+    "note": "Bài hát mình hay nghe cùng nhau lúc đó."
+  },
+  {
+    "id": 2,
+    "title": "Tên bài hát",
+    "artist": "Ca sĩ",
+    "year": 2023,
+    "note": "Bản nhạc nhắc nhớ về một buổi tối đặc biệt."
+  },
+  {
+    "id": 3,
+    "title": "Tên bài hát",
+    "artist": "Ca sĩ",
+    "year": 2024,
+    "note": "Mỗi lần nghe là lại nhớ."
+  }
+]

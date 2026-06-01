@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Phan Thiết",
+    "region": "Bình Thuận",
+    "year": 2021,
+    "emoji": "🌊",
+    "note": "Chuyến đi đầu tiên cùng nhau — cát trắng, gió biển và rất nhiều cười."
+  },
+  {
+    "id": 2,
+    "name": "Phú Quý",
+    "region": "Bình Thuận",
+    "year": 2026,
+    "emoji": "🏝️",
+    "note": "Đảo nhỏ ít người biết, sóng xanh ngắt và buổi tối đầy sao."
+  }
+]

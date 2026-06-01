@@ -78,17 +78,16 @@ export default function AboutPage() {
               className="font-script mb-4"
               style={{ fontSize: '42px', color: 'var(--terracotta)' }}
             >
-              How it works
+              Chúng mình
             </h2>
-            <ul
-              className="font-serif space-y-3 leading-relaxed"
+            <p
+              className="font-serif leading-relaxed"
               style={{ fontSize: '18px', color: 'var(--ink-soft)', lineHeight: '1.8' }}
             >
-              <li>Each year gets its own section in <em>Our Story</em>.</li>
-              <li>Add a script title and a short note to set the mood.</li>
-              <li>Drop in the photographs that belong to that year.</li>
-              <li>Come back whenever the years go by and add more.</li>
-            </ul>
+              Gia Hưng & Bích Đào — hai người bắt đầu từ những chuyến đi ngắn,
+              những bữa ăn muộn, và rất nhiều tiếng cười. Trang này là nơi lưu lại
+              tất cả những điều nhỏ nhặt mà thời gian hay làm mờ đi.
+            </p>
           </div>
 
           <hr className="section-divider" />
