@@ -88,19 +88,24 @@ function LineItem({ text, visible }: { text: string; visible: boolean }) {
 }
 
 export default function SplashScreen({ photos }: SplashScreenProps) {
-  const [bg,           setBg]          = useState<string | null>(null);
+  // 'loading' = pre-hydration (SSR), 'show' = first visit, 'gone' = already seen
+  const [phase,        setPhase]        = useState<'loading' | 'show' | 'gone'>('loading');
+  const [bg,           setBg]           = useState<string | null>(null);
   const [visibleLines, setVisibleLines] = useState(0);
   const [showReady,    setShowReady]    = useState(false);
   const [barFull,      setBarFull]      = useState(false);
   const [showPrompt,   setShowPrompt]   = useState(false);
   const [fading,       setFading]       = useState(false);
-  const [gone,         setGone]         = useState(false);
 
   useEffect(() => {
     if (sessionStorage.getItem('splashed') === '1') {
-      setGone(true);
+      setPhase('gone');
       return;
     }
+
+    // Mark seen immediately — navigating away mid-animation won't replay it
+    sessionStorage.setItem('splashed', '1');
+    setPhase('show');
 
     if (photos.length) {
       setBg(photos[Math.floor(Math.random() * photos.length)]);
@@ -111,20 +116,16 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
     });
     setTimeout(() => setShowReady(true), READY_DELAY);
     setTimeout(() => setBarFull(true),   READY_DELAY + 80);
-    // Show prompt after bar finishes
     setTimeout(() => setShowPrompt(true), READY_DELAY + 80 + BAR_DURATION + 200);
   }, []);
 
   const handleDismiss = () => {
     if (!showPrompt) return;
     setFading(true);
-    setTimeout(() => {
-      setGone(true);
-      sessionStorage.setItem('splashed', '1');
-    }, 700);
+    setTimeout(() => setPhase('gone'), 700);
   };
 
-  if (gone) return null;
+  if (phase !== 'show') return null;
 
   return (
     <div
