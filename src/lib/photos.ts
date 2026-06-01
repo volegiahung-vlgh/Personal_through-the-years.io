@@ -54,7 +54,9 @@ export function getPhotosForYear(year: number) {
     .sort()
     .map(file => ({
       src:     `${BASE_PATH}/images/${year}/${file}`,
-      alt:     `${year} — ${path.basename(file, path.extname(file))}`,
+      // Use human caption when available; otherwise use generic year description
+      // so raw machine filenames (IMG_4053, 0E1E15B7...) never appear as alt text
+      alt:     captions[file] ?? `Khoảnh khắc ${year}`,
       caption: captions[file] ?? undefined,
     }));
 }
@@ -116,6 +118,9 @@ export interface Moment {
 }
 
 function formatName(slug: string): string {
+  // If name already contains Vietnamese/non-ASCII characters or spaces, return as-is
+  // to avoid CSS/regex capitalize corrupting diacritics (e.g. "ChuyếN Du LịCh")
+  if (/[^\x00-\x7F]/.test(slug) || slug.includes(' ')) return slug;
   return slug
     .replace(/[-_]/g, ' ')
     .replace(/\b\w/g, c => c.toUpperCase());

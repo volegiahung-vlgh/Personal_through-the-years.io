@@ -24,15 +24,12 @@ interface StoryTimelineProps {
 export default function StoryTimeline({ entries }: StoryTimelineProps) {
   const sorted = [...entries].sort((a, b) => b.year - a.year);
 
-  const visible = sorted.filter(e =>
-    (e.photos?.length ?? 0) > 0 || (e.moments?.length ?? 0) > 0
-  );
-
   return (
     <div className="max-w-5xl mx-auto">
-      {visible.map((entry, i) => {
+      {sorted.map((entry, i) => {
         const hasPhotos  = (entry.photos?.length  ?? 0) > 0;
         const hasMoments = (entry.moments?.length ?? 0) > 0;
+        const isEmpty    = !hasPhotos && !hasMoments;
 
         return (
           <article
@@ -73,6 +70,19 @@ export default function StoryTimeline({ entries }: StoryTimelineProps) {
 
             {/* ── Right content ── */}
             <div className="space-y-10">
+
+              {/* Placeholder for years with no photos yet */}
+              {isEmpty && (
+                <div
+                  className="flex items-center gap-4 py-8 px-6 rounded-xl"
+                  style={{ border: '1px dashed var(--rule)', color: 'var(--ink-faint)' }}
+                >
+                  <span style={{ fontSize: '20px', opacity: 0.45 }}>✦</span>
+                  <p className="font-serif italic" style={{ fontSize: '16px', lineHeight: '1.7' }}>
+                    Kỷ niệm đang được lưu giữ — sắp được thêm vào đây.
+                  </p>
+                </div>
+              )}
 
               {/* Moment cards */}
               {hasMoments && (
