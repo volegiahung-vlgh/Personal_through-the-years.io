@@ -57,7 +57,7 @@ export function getPhotosForYear(year: number) {
       // Use human caption when available; otherwise use generic year description
       // so raw machine filenames (IMG_4053, 0E1E15B7...) never appear as alt text
       alt:     captions[file] ?? `Khoảnh khắc ${year}`,
-      caption: captions[file] ?? undefined,
+      caption: captions[file] && !captions[file].startsWith('TODO') ? captions[file] : undefined,
     }));
 }
 
