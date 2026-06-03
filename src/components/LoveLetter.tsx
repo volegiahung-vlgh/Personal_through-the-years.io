@@ -112,86 +112,78 @@ export default function LoveLetter() {
                   <stop offset="0%" stopColor="#a82048"/>
                   <stop offset="100%" stopColor="#721430"/>
                 </linearGradient>
-                {/* Top flap — darker shade for depth */}
+                {/* Top flap */}
                 <linearGradient id="ll-flap" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
                   <stop offset="0%" stopColor="#6c1128"/>
                   <stop offset="100%" stopColor="#881a34"/>
                 </linearGradient>
-                {/* Wax seal — 4-stop radial for realistic 3-D depth */}
-                <radialGradient id="ll-wax" cx="36%" cy="26%" r="70%">
-                  <stop offset="0%"   stopColor="#e03c6c"/>
-                  <stop offset="28%"  stopColor="#bf2448"/>
-                  <stop offset="65%"  stopColor="#901832"/>
-                  <stop offset="100%" stopColor="#500a1a"/>
+                {/* Wax — userSpaceOnUse so gradient is consistent across all drip blobs */}
+                <radialGradient id="ll-wax" cx="148" cy="103" r="46" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%"   stopColor="#e83870"/>
+                  <stop offset="28%"  stopColor="#c22248"/>
+                  <stop offset="62%"  stopColor="#921630"/>
+                  <stop offset="100%" stopColor="#4e0818"/>
                 </radialGradient>
-                {/* Specular gloss — top-left highlight */}
-                <radialGradient id="ll-gloss" cx="28%" cy="22%" r="58%">
-                  <stop offset="0%"   stopColor="rgba(255,255,255,0.26)"/>
+                {/* Top-left specular gloss for raised disc */}
+                <radialGradient id="ll-gloss" cx="136" cy="97" r="24" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%"   stopColor="rgba(255,255,255,0.24)"/>
                   <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
                 </radialGradient>
-                {/* Feathered drop shadow for the seal */}
-                <filter id="ll-drop" x="-70%" y="-70%" width="240%" height="240%">
-                  <feDropShadow dx="1" dy="5" stdDeviation="6" floodColor="#280610" floodOpacity="0.60"/>
+                {/* Drop shadow — applied to the whole seal group = one unified shadow */}
+                <filter id="ll-drop" x="-55%" y="-55%" width="210%" height="210%">
+                  <feDropShadow dx="1" dy="5" stdDeviation="6" floodColor="#240608" floodOpacity="0.60"/>
                 </filter>
               </defs>
 
               {/* ── Envelope body ── */}
               <rect width="300" height="200" rx="12" fill="url(#ll-body)"/>
-              {/* Subtle paper-sheen along the top edge */}
               <rect width="300" height="50" rx="12" fill="rgba(255,255,255,0.052)"/>
 
-              {/* Fold crease — bottom V */}
+              {/* Fold creases */}
               <line x1="0"   y1="200" x2="150" y2="118" stroke="rgba(0,0,0,0.22)" strokeWidth="1"/>
               <line x1="300" y1="200" x2="150" y2="118" stroke="rgba(0,0,0,0.22)" strokeWidth="1"/>
-              {/* Fold crease — side diagonals to flap tip */}
-              <line x1="0"   y1="0" x2="150" y2="88" stroke="rgba(0,0,0,0.12)" strokeWidth="0.7"/>
-              <line x1="300" y1="0" x2="150" y2="88" stroke="rgba(0,0,0,0.12)" strokeWidth="0.7"/>
+              <line x1="0"   y1="0"   x2="150" y2="88"  stroke="rgba(0,0,0,0.12)" strokeWidth="0.7"/>
+              <line x1="300" y1="0"   x2="150" y2="88"  stroke="rgba(0,0,0,0.12)" strokeWidth="0.7"/>
 
               {/* ── Top flap ── */}
               <polygon points="0,0 300,0 150,88" fill="url(#ll-flap)"/>
               <polygon points="0,0 300,0 150,88" fill="rgba(255,255,255,0.035)"/>
-              {/* Flap-edge highlight */}
               <line x1="0"   y1="0" x2="150" y2="88" stroke="rgba(255,255,255,0.085)" strokeWidth="0.8"/>
               <line x1="300" y1="0" x2="150" y2="88" stroke="rgba(255,255,255,0.085)" strokeWidth="0.8"/>
 
-              {/* ── Wax seal ── */}
-              {/* Soft drop-shadow layer */}
-              <circle cx="150" cy="111" r="39" fill="url(#ll-wax)" filter="url(#ll-drop)"/>
-              {/* Main wax disc */}
-              <circle cx="150" cy="110" r="39" fill="url(#ll-wax)"/>
-              {/* Top-left specular gloss */}
-              <circle cx="150" cy="110" r="39" fill="url(#ll-gloss)"/>
-              {/* Outer decorative rim */}
-              <circle cx="150" cy="110" r="37"   fill="none" stroke="rgba(255,220,202,0.45)" strokeWidth="1.5"/>
-              {/* Inner rim — stamp-border look */}
-              <circle cx="150" cy="110" r="30.5" fill="none" stroke="rgba(255,220,202,0.28)" strokeWidth="0.9"/>
-
-              {/* ── Embossed botanical-heart design (lighter = raised wax) ── */}
-              <g transform="translate(150,110)" stroke="rgba(255,215,195,0.82)" fill="none"
-                 strokeLinecap="round" strokeLinejoin="round">
-                {/* Heart */}
-                <path
-                  d="M0,7 C-1,5 -10.5,-5 -10.5,-10 a5.7,5.7 0 0,1 10.5,0 a5.7,5.7 0 0,1 10.5,0 C10.5,-5 1,5 0,7z"
-                  fill="rgba(255,215,195,0.18)" strokeWidth="1.2"/>
-                {/* Left sprig */}
-                <line x1="-4.5" y1="5"  x2="-18"  y2="-3"   strokeWidth="1.05"/>
-                <line x1="-18"  y1="-3" x2="-23.5" y2="-11"  strokeWidth="0.92"/>
-                <line x1="-18"  y1="-3" x2="-13.5" y2="-12"  strokeWidth="0.82"/>
-                <circle cx="-23.5" cy="-11" r="2.1" fill="rgba(255,215,195,0.72)" stroke="none"/>
-                <circle cx="-13.5" cy="-12" r="1.8" fill="rgba(255,215,195,0.72)" stroke="none"/>
-                {/* Right sprig (mirror) */}
-                <line x1="4.5" y1="5"  x2="18"   y2="-3"  strokeWidth="1.05"/>
-                <line x1="18"  y1="-3" x2="23.5"  y2="-11" strokeWidth="0.92"/>
-                <line x1="18"  y1="-3" x2="13.5"  y2="-12" strokeWidth="0.82"/>
-                <circle cx="23.5" cy="-11" r="2.1" fill="rgba(255,215,195,0.72)" stroke="none"/>
-                <circle cx="13.5" cy="-12" r="1.8" fill="rgba(255,215,195,0.72)" stroke="none"/>
-                {/* Bottom stem */}
-                <line x1="0" y1="7"  x2="0"   y2="18"   strokeWidth="0.95"/>
-                <line x1="0" y1="16" x2="-6.5" y2="22.5" strokeWidth="0.80"/>
-                <line x1="0" y1="16" x2="6.5"  y2="22.5" strokeWidth="0.80"/>
-                <circle cx="-6.5" cy="22.5" r="1.7" fill="rgba(255,215,195,0.72)" stroke="none"/>
-                <circle cx="6.5"  cy="22.5" r="1.7" fill="rgba(255,215,195,0.72)" stroke="none"/>
+              {/* ── Wax seal with organic drip blobs ── */}
+              {/* filter on <g> = single shadow from the combined silhouette of all shapes */}
+              <g filter="url(#ll-drop)">
+                {/* Drip blobs — 8 blobs, irregularly spaced, tilted outward from center */}
+                <ellipse cx="149" cy="68"  rx="11" ry="14" fill="url(#ll-wax)"/>
+                <ellipse cx="181" cy="82"  rx="9"  ry="12" fill="url(#ll-wax)" transform="rotate(-40,181,82)"/>
+                <ellipse cx="190" cy="112" rx="13" ry="8"  fill="url(#ll-wax)"/>
+                <ellipse cx="176" cy="141" rx="9"  ry="12" fill="url(#ll-wax)" transform="rotate(42,176,141)"/>
+                <ellipse cx="150" cy="152" rx="11" ry="14" fill="url(#ll-wax)"/>
+                <ellipse cx="120" cy="139" rx="9"  ry="12" fill="url(#ll-wax)" transform="rotate(-42,120,139)"/>
+                <ellipse cx="110" cy="109" rx="13" ry="8"  fill="url(#ll-wax)"/>
+                <ellipse cx="122" cy="79"  rx="9"  ry="12" fill="url(#ll-wax)" transform="rotate(38,122,79)"/>
+                {/* Main disc — fills the gaps, sits on top of all blobs */}
+                <circle cx="150" cy="110" r="33" fill="url(#ll-wax)"/>
               </g>
+
+              {/* Specular gloss — top-left highlight on raised disc only */}
+              <circle cx="150" cy="110" r="33" fill="url(#ll-gloss)"/>
+
+              {/* Outer decorative rim */}
+              <circle cx="150" cy="110" r="31"   fill="none" stroke="rgba(255,218,202,0.44)" strokeWidth="1.4"/>
+              {/* Inner rim — stamp border */}
+              <circle cx="150" cy="110" r="24"   fill="none" stroke="rgba(255,218,202,0.27)" strokeWidth="0.9"/>
+
+              {/* ── Heart — embossed (lighter stroke = raised wax catching light) ── */}
+              <path
+                d="M150,124 C149,121 131,113 131,103 a10,10 0 0,1 19,0 a10,10 0 0,1 19,0 C169,113 151,121 150,124z"
+                fill="rgba(255,215,195,0.24)"
+                stroke="rgba(255,215,195,0.90)"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
 
             {/* Hover indicator — open envelope icon fades in */}
