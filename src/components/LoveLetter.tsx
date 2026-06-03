@@ -85,11 +85,11 @@ export default function LoveLetter() {
             className="absolute"
             style={{
               inset: 0,
-              background: 'linear-gradient(145deg, #5a0f26, #4a0c20)',
+              background: 'linear-gradient(145deg, #c07888, #a05868)',
               borderRadius: '12px',
               transform: 'translateY(-8px) translateX(7px)',
               zIndex: 0,
-              boxShadow: '0 4px 20px rgba(74,12,32,0.45)',
+              boxShadow: '0 4px 20px rgba(160,70,90,0.40)',
             }}
           />
 
@@ -100,93 +100,75 @@ export default function LoveLetter() {
               width: '300px',
               height: '200px',
               borderRadius: '12px',
-              boxShadow: '0 12px 40px rgba(110,21,48,0.5)',
+              boxShadow: '0 12px 40px rgba(160,60,80,0.38)',
               transition: 'box-shadow 0.3s ease',
             }}
           >
             {/* Envelope SVG */}
             <svg viewBox="0 0 300 200" width="300" height="200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
-                {/* Envelope body */}
-                <linearGradient id="ll-body" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
-                  <stop offset="0%" stopColor="#a82048"/>
-                  <stop offset="100%" stopColor="#721430"/>
+                {/* Gem heart — pearl/crystal gradient */}
+                <linearGradient id="ll-gem" x1="0.15" y1="0" x2="0.85" y2="1">
+                  <stop offset="0%"   stopColor="#ffffff"/>
+                  <stop offset="25%"  stopColor="#fff4f0"/>
+                  <stop offset="58%"  stopColor="#ffd0c4"/>
+                  <stop offset="100%" stopColor="#f4a090"/>
                 </linearGradient>
-                {/* Top flap */}
-                <linearGradient id="ll-flap" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-                  <stop offset="0%" stopColor="#6c1128"/>
-                  <stop offset="100%" stopColor="#881a34"/>
-                </linearGradient>
-                {/* Wax — userSpaceOnUse so gradient is consistent across all drip blobs */}
-                <radialGradient id="ll-wax" cx="148" cy="103" r="46" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%"   stopColor="#e83870"/>
-                  <stop offset="28%"  stopColor="#c22248"/>
-                  <stop offset="62%"  stopColor="#921630"/>
-                  <stop offset="100%" stopColor="#4e0818"/>
-                </radialGradient>
-                {/* Top-left specular gloss for raised disc */}
-                <radialGradient id="ll-gloss" cx="136" cy="97" r="24" gradientUnits="userSpaceOnUse">
-                  <stop offset="0%"   stopColor="rgba(255,255,255,0.24)"/>
-                  <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
-                </radialGradient>
-                {/* Drop shadow — applied to the whole seal group = one unified shadow */}
-                <filter id="ll-drop" x="-55%" y="-55%" width="210%" height="210%">
-                  <feDropShadow dx="1" dy="5" stdDeviation="6" floodColor="#240608" floodOpacity="0.60"/>
-                </filter>
               </defs>
 
-              {/* ── Envelope body ── */}
-              <rect width="300" height="200" rx="12" fill="url(#ll-body)"/>
-              <rect width="300" height="50" rx="12" fill="rgba(255,255,255,0.052)"/>
+              {/* ── Envelope body (solid) ── */}
+              <rect width="300" height="200" rx="10" fill="#d47890"/>
+              {/* Coral border */}
+              <rect x="1.5" y="1.5" width="297" height="197" rx="9"
+                    fill="none" stroke="#c84830" strokeWidth="3.5"/>
 
-              {/* Fold creases */}
-              <line x1="0"   y1="200" x2="150" y2="118" stroke="rgba(0,0,0,0.22)" strokeWidth="1"/>
-              <line x1="300" y1="200" x2="150" y2="118" stroke="rgba(0,0,0,0.22)" strokeWidth="1"/>
-              <line x1="0"   y1="0"   x2="150" y2="88"  stroke="rgba(0,0,0,0.12)" strokeWidth="0.7"/>
-              <line x1="300" y1="0"   x2="150" y2="88"  stroke="rgba(0,0,0,0.12)" strokeWidth="0.7"/>
+              {/* Fold crease lines */}
+              <line x1="0"   y1="200" x2="150" y2="118" stroke="rgba(140,40,40,0.22)" strokeWidth="1"/>
+              <line x1="300" y1="200" x2="150" y2="118" stroke="rgba(140,40,40,0.22)" strokeWidth="1"/>
+              <line x1="0"   y1="0"   x2="150" y2="88"  stroke="rgba(0,0,0,0.07)"     strokeWidth="0.6"/>
+              <line x1="300" y1="0"   x2="150" y2="88"  stroke="rgba(0,0,0,0.07)"     strokeWidth="0.6"/>
 
-              {/* ── Top flap ── */}
-              <polygon points="0,0 300,0 150,88" fill="url(#ll-flap)"/>
-              <polygon points="0,0 300,0 150,88" fill="rgba(255,255,255,0.035)"/>
-              <line x1="0"   y1="0" x2="150" y2="88" stroke="rgba(255,255,255,0.085)" strokeWidth="0.8"/>
-              <line x1="300" y1="0" x2="150" y2="88" stroke="rgba(255,255,255,0.085)" strokeWidth="0.8"/>
+              {/* ── Top flap (solid, lighter pink) ── */}
+              {/* Flap depth shadow */}
+              <polygon points="0,0 300,0 150,91" fill="rgba(160,50,60,0.18)"/>
+              {/* Flap fill */}
+              <polygon points="0,0 300,0 150,88" fill="#f0b8c4"/>
+              {/* Inner fold (lighter inner triangle for depth) */}
+              <polygon points="18,0 282,0 150,74" fill="rgba(255,255,255,0.10)"/>
+              {/* Flap V-edge */}
+              <polyline points="0,0 150,88 300,0" fill="none" stroke="#c84830" strokeWidth="1.6"/>
 
-              {/* ── Wax seal with organic drip blobs ── */}
-              {/* filter on <g> = single shadow from the combined silhouette of all shapes */}
-              <g filter="url(#ll-drop)">
-                {/* Drip blobs — 8 blobs, irregularly spaced, tilted outward from center */}
-                <ellipse cx="149" cy="68"  rx="11" ry="14" fill="url(#ll-wax)"/>
-                <ellipse cx="181" cy="82"  rx="9"  ry="12" fill="url(#ll-wax)" transform="rotate(-40,181,82)"/>
-                <ellipse cx="190" cy="112" rx="13" ry="8"  fill="url(#ll-wax)"/>
-                <ellipse cx="176" cy="141" rx="9"  ry="12" fill="url(#ll-wax)" transform="rotate(42,176,141)"/>
-                <ellipse cx="150" cy="152" rx="11" ry="14" fill="url(#ll-wax)"/>
-                <ellipse cx="120" cy="139" rx="9"  ry="12" fill="url(#ll-wax)" transform="rotate(-42,120,139)"/>
-                <ellipse cx="110" cy="109" rx="13" ry="8"  fill="url(#ll-wax)"/>
-                <ellipse cx="122" cy="79"  rx="9"  ry="12" fill="url(#ll-wax)" transform="rotate(38,122,79)"/>
-                {/* Main disc — fills the gaps, sits on top of all blobs */}
-                <circle cx="150" cy="110" r="33" fill="url(#ll-wax)"/>
-              </g>
-
-              {/* Specular gloss — top-left highlight on raised disc only */}
-              <circle cx="150" cy="110" r="33" fill="url(#ll-gloss)"/>
-
-              {/* Outer decorative rim */}
-              <circle cx="150" cy="110" r="31"   fill="none" stroke="rgba(255,218,202,0.44)" strokeWidth="1.4"/>
-              {/* Inner rim — stamp border */}
-              <circle cx="150" cy="110" r="24"   fill="none" stroke="rgba(255,218,202,0.27)" strokeWidth="0.9"/>
-
-              {/* ── Heart — embossed (lighter stroke = raised wax catching light) ── */}
+              {/* ── Crystal gem heart at fold point ── */}
+              {/* Soft drop shadow */}
               <path
-                d="M150,124 C149,121 131,113 131,103 a10,10 0 0,1 19,0 a10,10 0 0,1 19,0 C169,113 151,121 150,124z"
-                fill="rgba(255,215,195,0.24)"
-                stroke="rgba(255,215,195,0.90)"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+                d="M150,117 C149,114 135,108 135,99 a8,8 0 0,1 15,0 a8,8 0 0,1 15,0 C165,108 151,114 150,117z"
+                fill="rgba(180,50,50,0.28)" transform="translate(2,3)"/>
+              {/* Crystal fill */}
+              <path
+                d="M150,117 C149,114 135,108 135,99 a8,8 0 0,1 15,0 a8,8 0 0,1 15,0 C165,108 151,114 150,117z"
+                fill="url(#ll-gem)"/>
+              {/* Heart outline */}
+              <path
+                d="M150,117 C149,114 135,108 135,99 a8,8 0 0,1 15,0 a8,8 0 0,1 15,0 C165,108 151,114 150,117z"
+                fill="none" stroke="#c84830" strokeWidth="1.8"
+                strokeLinecap="round" strokeLinejoin="round"/>
+
+              {/* Facet lines (diamond-cut look) */}
+              <line x1="150" y1="117" x2="150" y2="99.5" stroke="rgba(255,255,255,0.65)" strokeWidth="0.7"/>
+              <line x1="150" y1="117" x2="135" y2="99.5" stroke="rgba(255,255,255,0.52)" strokeWidth="0.65"/>
+              <line x1="150" y1="117" x2="165" y2="99.5" stroke="rgba(255,255,255,0.52)" strokeWidth="0.65"/>
+              <line x1="135" y1="99.5" x2="165" y2="99.5" stroke="rgba(255,255,255,0.48)" strokeWidth="0.60"/>
+              <line x1="135" y1="99.5" x2="143" y2="92"   stroke="rgba(255,255,255,0.42)" strokeWidth="0.55"/>
+              <line x1="150" y1="99.5" x2="143" y2="92"   stroke="rgba(255,255,255,0.38)" strokeWidth="0.50"/>
+              <line x1="165" y1="99.5" x2="157" y2="92"   stroke="rgba(255,255,255,0.42)" strokeWidth="0.55"/>
+              <line x1="150" y1="99.5" x2="157" y2="92"   stroke="rgba(255,255,255,0.38)" strokeWidth="0.50"/>
+
+              {/* Specular highlights */}
+              <ellipse cx="142" cy="95" rx="5"   ry="3.2" fill="rgba(255,255,255,0.88)" transform="rotate(-22,142,95)"/>
+              <ellipse cx="156" cy="92.5" rx="2.5" ry="1.5" fill="rgba(255,255,255,0.72)"/>
             </svg>
 
-            {/* Hover indicator — open envelope icon fades in */}
+            {/* Hover indicator */}
             <div
               className="absolute inset-x-0 bottom-0 flex justify-center pb-[14px] opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0 pointer-events-none"
             >
@@ -194,19 +176,17 @@ export default function LoveLetter() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '6px',
-                background: 'rgba(255,255,255,0.13)',
+                background: 'rgba(180,50,60,0.72)',
                 backdropFilter: 'blur(6px)',
                 WebkitBackdropFilter: 'blur(6px)',
                 borderRadius: '999px',
                 padding: '5px 12px 5px 9px',
               }}>
-                {/* Open-envelope icon */}
                 <svg width="15" height="12" viewBox="0 0 15 12" fill="none" aria-hidden="true">
-                  <rect x="0.75" y="3.25" width="13.5" height="8" rx="1.5" stroke="rgba(255,255,255,0.85)" strokeWidth="1.2"/>
-                  <path d="M1 3.75l6.5 4.5 6.5-4.5" stroke="rgba(255,255,255,0.85)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M7.5 0l1.8 1.8-1.8 1.8L5.7 1.8z" fill="rgba(232,184,154,0.9)"/>
+                  <rect x="0.75" y="3.25" width="13.5" height="8" rx="1.5" stroke="rgba(255,255,255,0.90)" strokeWidth="1.2"/>
+                  <path d="M1 3.75l6.5 4.5 6.5-4.5" stroke="rgba(255,255,255,0.90)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
-                <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-cormorant), Georgia, serif', letterSpacing: '0.28em', textTransform: 'uppercase' }}>
+                <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.92)', fontFamily: 'var(--font-cormorant), Georgia, serif', letterSpacing: '0.28em', textTransform: 'uppercase' }}>
                   {tr.clickToOpen}
                 </span>
               </div>
