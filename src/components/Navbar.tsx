@@ -3,18 +3,23 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-
-const links = [
-  { href: '/',               label: 'Home' },
-  { href: '/story-of-love', label: 'Our Story' },
-  { href: '/our-memories',  label: 'Memories' },
-  { href: '/about',          label: 'About' },
-];
+import { useLanguage, type Lang } from '@/contexts/LanguageContext';
+import { t } from '@/translations';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { lang, setLang } = useLanguage();
+
+  const tr = t(lang).nav;
+
+  const links = [
+    { href: '/',               label: tr.home },
+    { href: '/story-of-love', label: tr.ourStory },
+    { href: '/our-memories',  label: tr.memories },
+    { href: '/about',          label: tr.about },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -26,6 +31,44 @@ export default function Navbar() {
   useEffect(() => { setMenuOpen(false); }, [pathname]);
 
   const heroMode = pathname === '/' && !scrolled;
+
+  function LangToggle({ mobile = false }: { mobile?: boolean }) {
+    const langs: Lang[] = ['EN', 'VI'];
+    return (
+      <div className="flex items-center gap-1">
+        {langs.map((l, i) => (
+          <span key={l} className="flex items-center gap-1">
+            {i > 0 && (
+              <span
+                style={{
+                  color: heroMode && !mobile ? 'rgba(255,255,255,0.25)' : 'var(--ink-faint)',
+                  fontSize: '10px',
+                }}
+                aria-hidden="true"
+              >
+                /
+              </span>
+            )}
+            <button
+              onClick={() => setLang(l)}
+              className="font-serif uppercase text-[11px] focus-visible:outline-none focus-visible:ring-2 rounded-sm focus-visible:ring-offset-1"
+              style={{
+                letterSpacing: '0.28em',
+                color: lang === l
+                  ? (heroMode && !mobile ? '#fff' : 'var(--terracotta-deep)')
+                  : (heroMode && !mobile ? 'rgba(255,255,255,0.45)' : 'var(--ink-faint)'),
+                fontWeight: lang === l ? 600 : 400,
+                transition: 'color 0.2s ease',
+                ['--tw-ring-color' as string]: heroMode && !mobile ? 'rgba(255,255,255,0.7)' : 'var(--terracotta)',
+              }}
+            >
+              {l}
+            </button>
+          </span>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <header
@@ -70,16 +113,10 @@ export default function Navbar() {
         ))}
       </nav>
 
-      {/* Right tag — desktop only */}
-      <span
-        className="hidden md:block font-serif text-[12px] transition-colors duration-300"
-        style={{
-          color: heroMode ? 'rgba(255,255,255,0.55)' : 'var(--ink-soft)',
-          letterSpacing: '0.4em',
-        }}
-      >
-        through the years
-      </span>
+      {/* EN/VI toggle — desktop only */}
+      <div className="hidden md:flex">
+        <LangToggle />
+      </div>
 
       {/* Hamburger — mobile only */}
       <button
@@ -136,6 +173,16 @@ export default function Navbar() {
               {label}
             </Link>
           ))}
+          {/* Language toggle in mobile drawer */}
+          <div className="px-8 py-5 flex items-center gap-3">
+            <span
+              className="font-serif uppercase text-[10px]"
+              style={{ color: 'var(--ink-faint)', letterSpacing: '0.3em' }}
+            >
+              Language
+            </span>
+            <LangToggle mobile />
+          </div>
         </div>
       )}
     </header>

@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { t } from '@/translations';
 
 const START = new Date('2021-02-08T00:00:00');
 
@@ -95,6 +97,8 @@ export default function DayCounterHero({ photos }: Props) {
   const [elapsed, setElapsed] = useState<Elapsed | null>(null);
   const [mounted, setMounted] = useState(false);
   const [bgLoaded, setBgLoaded] = useState(false);
+  const { lang } = useLanguage();
+  const tr = t(lang).daycounter;
 
   // Pick random photo once on mount
   const bgPhoto = useMemo(() => {
@@ -236,7 +240,7 @@ export default function DayCounterHero({ photos }: Props) {
             maxWidth: '900px',
           }}
         >
-          <NumCol value={e.years}  label="Năm"   mounted={mounted} delay={0}   />
+          <NumCol value={e.years}  label={tr.years}   mounted={mounted} delay={0}   />
 
           {/* Divider */}
           <div
@@ -253,7 +257,7 @@ export default function DayCounterHero({ photos }: Props) {
             }}
           />
 
-          <NumCol value={e.months} label="Tháng" mounted={mounted} delay={120} />
+          <NumCol value={e.months} label={tr.months} mounted={mounted} delay={120} />
 
           {/* Divider */}
           <div
@@ -270,7 +274,7 @@ export default function DayCounterHero({ photos }: Props) {
             }}
           />
 
-          <NumCol value={e.days}   label="Ngày"  mounted={mounted} delay={240} />
+          <NumCol value={e.days}   label={tr.days}  mounted={mounted} delay={240} />
         </div>
 
         {/* ── Total + live clock ── */}
@@ -293,7 +297,7 @@ export default function DayCounterHero({ photos }: Props) {
               letterSpacing: '0.01em',
             }}
           >
-            {e.totalDays.toLocaleString('vi-VN')} ngày bên nhau
+            {e.totalDays.toLocaleString(lang === 'VI' ? 'vi-VN' : 'en-US')} {tr.daysTogether}
           </span>
 
           <span
@@ -331,7 +335,7 @@ export default function DayCounterHero({ photos }: Props) {
             transition: 'opacity 0.8s ease 500ms',
           }}
         >
-          Kể từ 08 · 02 · 2021
+          {tr.since}
         </p>
       </div>
 

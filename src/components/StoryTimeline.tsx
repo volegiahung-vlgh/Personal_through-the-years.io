@@ -1,6 +1,10 @@
+'use client';
+
 import PhotoGallery from './PhotoGallery';
 import MomentCard from './MomentCard';
 import type { Moment } from '@/lib/photos';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { t } from '@/translations';
 
 interface TimelinePhoto {
   src: string;
@@ -22,6 +26,8 @@ interface StoryTimelineProps {
 }
 
 export default function StoryTimeline({ entries }: StoryTimelineProps) {
+  const { lang } = useLanguage();
+  const tr = t(lang).timeline;
   const sorted = [...entries].sort((a, b) => b.year - a.year);
 
   return (
@@ -79,7 +85,7 @@ export default function StoryTimeline({ entries }: StoryTimelineProps) {
                 >
                   <span style={{ fontSize: '20px', opacity: 0.45 }}>✦</span>
                   <p className="font-serif italic" style={{ fontSize: '16px', lineHeight: '1.7' }}>
-                    Kỷ niệm đang được lưu giữ — sắp được thêm vào đây.
+                    {tr.emptyPlaceholder}
                   </p>
                 </div>
               )}
@@ -89,7 +95,7 @@ export default function StoryTimeline({ entries }: StoryTimelineProps) {
                 <div>
                   <p className="font-serif uppercase text-[10px] tracking-widest mb-4"
                      style={{ color: 'var(--ink-faint)', letterSpacing: '0.32em' }}>
-                    Kỷ niệm
+                    {tr.moments}
                   </p>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                     {entry.moments!.map(m => (
@@ -110,7 +116,7 @@ export default function StoryTimeline({ entries }: StoryTimelineProps) {
                   {hasMoments && (
                     <p className="font-serif uppercase text-[10px] tracking-widest mb-4"
                        style={{ color: 'var(--ink-faint)', letterSpacing: '0.32em' }}>
-                      Hình ảnh
+                      {tr.photos}
                     </p>
                   )}
                   <PhotoGallery photos={entry.photos!} />

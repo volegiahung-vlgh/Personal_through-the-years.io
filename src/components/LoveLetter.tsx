@@ -1,17 +1,12 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { t } from '@/translations';
 
 // ── Edit your letter here ─────────────────────────────────────
 const LETTER_PARAGRAPHS = [
-  'Bích Đào,',
-  'Có những điều anh luôn muốn nói nhưng không biết bắt đầu từ đâu. Có lẽ vì tình yêu thật sự không cần nhiều lời — nó chỉ cần được sống, từng ngày một.',
-  'Anh nhớ lần đầu tiên gặp em. Không phải vì có gì đặc biệt xảy ra lúc đó — mà vì từ khoảnh khắc ấy, mọi thứ bình thường đều trở nên khác đi. Anh không biết tên cảm giác ấy cho đến khi em ở bên.',
-  'Những năm tháng bên em là những trang đẹp nhất anh từng sống. Những chuyến đi, những bữa cơm muộn, những buổi chiều ngồi im lặng chẳng nói gì — tất cả đều được lưu giữ ở đây, trong góc nhỏ này của chúng mình.',
-  'Em là lý do anh chụp ảnh. Không phải để lưu kỷ niệm — mà vì anh sợ một ngày nào đó mình sẽ quên mất ánh mắt em khi em cười, hay cái cách em cầm ly cà phê buổi sáng.',
-  'Anh yêu em — không phải vì em hoàn hảo, mà vì bên em, anh trở thành phiên bản tốt hơn của chính mình.',
-  'Mãi mãi là khoảng thời gian rất dài. Nhưng với em, anh muốn thử.',
-  'Của em mãi mãi,\nGia Hưng ♥',
+  '...',
 ];
 // ─────────────────────────────────────────────────────────────
 
@@ -29,6 +24,8 @@ export default function LoveLetter() {
   const [pulse, setPulse]       = useState(false);
   const [atBottom, setAtBottom] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { lang } = useLanguage();
+  const tr = t(lang).letter;
 
   const handleOpen = () => {
     setPulse(true);
@@ -144,7 +141,7 @@ export default function LoveLetter() {
           className="mt-5 font-serif uppercase text-[12px]"
           style={{ color: 'var(--terracotta-deep)', letterSpacing: '0.38em' }}
         >
-          Click to open
+          {tr.clickToOpen}
         </p>
       </div>
 
@@ -180,7 +177,7 @@ export default function LoveLetter() {
                   </svg>
                 </div>
                 <span className="font-script leading-none" style={{ fontSize: '30px', color: '#fff' }}>
-                  Một lá thư
+                  {tr.title}
                 </span>
               </div>
               <button
@@ -188,7 +185,7 @@ export default function LoveLetter() {
                 className="flex items-center gap-1 font-serif uppercase text-[11px] tracking-widest transition-opacity hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded"
                 style={{ color: 'rgba(255,255,255,0.80)', letterSpacing: '0.2em' }}
               >
-                <span>Đóng</span>
+                <span>{tr.close}</span>
                 <span style={{ fontSize: '18px', lineHeight: 1 }}>×</span>
               </button>
             </div>

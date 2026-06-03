@@ -1,20 +1,18 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { t } from '@/translations';
 
 interface SplashScreenProps {
   photos: string[];
 }
 
-const LINES = [
-  { text: 'Loading our story', status: 'done' },
-  { text: 'Visualization',     status: 'done' },
-  { text: 'Building memories', status: 'done' },
-];
+const LINE_COUNT = 3;
 
 const LINE_DELAY    = 700;
-const LINE_FILL_MS  = 550;   // how long each line's mini-bar takes to fill
-const READY_DELAY   = LINE_DELAY * LINES.length + LINE_FILL_MS + 400;
+const LINE_FILL_MS  = 550;
+const READY_DELAY   = LINE_DELAY * LINE_COUNT + LINE_FILL_MS + 400;
 const BAR_DURATION  = 1200;
 const FADE_DELAY    = READY_DELAY + BAR_DURATION + 600;
 
@@ -96,6 +94,8 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
   const [barFull,      setBarFull]      = useState(false);
   const [showPrompt,   setShowPrompt]   = useState(false);
   const [fading,       setFading]       = useState(false);
+  const { lang } = useLanguage();
+  const tr = t(lang).splash;
 
   useEffect(() => {
     if (sessionStorage.getItem('splashed') === '1') {
@@ -111,7 +111,7 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
       setBg(photos[Math.floor(Math.random() * photos.length)]);
     }
 
-    LINES.forEach((_, i) => {
+    Array.from({ length: LINE_COUNT }).forEach((_, i) => {
       setTimeout(() => setVisibleLines(i + 1), LINE_DELAY * (i + 1));
     });
     setTimeout(() => setShowReady(true), READY_DELAY);
@@ -169,7 +169,7 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
           className="uppercase tracking-widest mb-3"
           style={{ fontSize: '11px', color: '#e8b89a', letterSpacing: '0.28em' }}
         >
-          Initializing
+          {lang === 'VI' ? 'Đang khởi động' : 'Initializing'}
         </p>
 
         <h1
@@ -180,8 +180,8 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
         </h1>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          {LINES.map((line, i) => (
-            <LineItem key={i} text={line.text} visible={visibleLines > i} />
+          {tr.lines.map((text, i) => (
+            <LineItem key={i} text={text} visible={visibleLines > i} />
           ))}
         </div>
 
@@ -207,7 +207,7 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
             className="mt-4 uppercase tracking-widest"
             style={{ fontSize: '11px', color: '#e8b89a', letterSpacing: '0.28em' }}
           >
-            Ready
+            {lang === 'VI' ? 'Sẵn sàng' : 'Ready'}
           </p>
         )}
       </div>
@@ -239,7 +239,7 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
             animation: showPrompt ? 'promptPulse 2s ease-in-out infinite' : 'none',
           }}
         >
-          Click anywhere to continue
+          {tr.clickToContinue}
         </p>
         <div
           style={{
