@@ -79,61 +79,127 @@ export default function LoveLetter() {
           }}
           aria-label="Open love letter"
         >
-          {/* Back card (shadow layer) */}
+          {/* Back envelope shadow */}
           <div
             aria-hidden="true"
-            className="absolute rounded-2xl"
+            className="absolute"
             style={{
               inset: 0,
               background: 'linear-gradient(145deg, #5a0f26, #4a0c20)',
-              borderRadius: '18px',
+              borderRadius: '12px',
               transform: 'translateY(-8px) translateX(7px)',
               zIndex: 0,
               boxShadow: '0 4px 20px rgba(74,12,32,0.45)',
             }}
           />
 
-          {/* Main card */}
+          {/* Envelope card */}
           <div
-            className="relative z-10 flex flex-col items-center justify-center"
+            className="relative z-10 overflow-hidden"
             style={{
               width: '300px',
               height: '200px',
-              background: 'linear-gradient(145deg, #a82048 0%, #891939 55%, #721430 100%)',
-              borderRadius: '18px',
-              boxShadow: '0 12px 40px rgba(110,21,48,0.5), inset 0 1px 0 rgba(255,255,255,0.12)',
-              transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+              borderRadius: '12px',
+              boxShadow: '0 12px 40px rgba(110,21,48,0.5)',
+              transition: 'box-shadow 0.3s ease',
             }}
           >
-            {/* Inner gloss */}
-            <div
-              aria-hidden="true"
-              className="absolute inset-x-0 top-0 rounded-t-[18px]"
-              style={{
-                height: '50%',
-                background: 'linear-gradient(to bottom, rgba(255,255,255,0.08), transparent)',
-                pointerEvents: 'none',
-              }}
-            />
+            {/* Envelope SVG */}
+            <svg viewBox="0 0 300 200" width="300" height="200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="ll-body" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+                  <stop offset="0%" stopColor="#a82048"/>
+                  <stop offset="100%" stopColor="#721430"/>
+                </linearGradient>
+                <linearGradient id="ll-flap" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+                  <stop offset="0%" stopColor="#7c1630"/>
+                  <stop offset="100%" stopColor="#921c3c"/>
+                </linearGradient>
+                <radialGradient id="ll-seal" cx="45%" cy="35%" r="65%">
+                  <stop offset="0%" stopColor="#b02848"/>
+                  <stop offset="100%" stopColor="#5c1020"/>
+                </radialGradient>
+              </defs>
 
-            {/* Heart badge */}
+              {/* Body */}
+              <rect width="300" height="200" rx="12" fill="url(#ll-body)"/>
+              {/* Top highlight */}
+              <rect width="300" height="70" rx="12" fill="rgba(255,255,255,0.055)"/>
+
+              {/* Fold lines — bottom V */}
+              <line x1="0"   y1="200" x2="150" y2="118" stroke="rgba(0,0,0,0.20)" strokeWidth="1"/>
+              <line x1="300" y1="200" x2="150" y2="118" stroke="rgba(0,0,0,0.20)" strokeWidth="1"/>
+              {/* Fold lines — side diagonals */}
+              <line x1="0"   y1="0" x2="150" y2="88" stroke="rgba(0,0,0,0.13)" strokeWidth="0.8"/>
+              <line x1="300" y1="0" x2="150" y2="88" stroke="rgba(0,0,0,0.13)" strokeWidth="0.8"/>
+
+              {/* Top flap triangle */}
+              <polygon points="0,0 300,0 150,88" fill="url(#ll-flap)"/>
+              <polygon points="0,0 300,0 150,88" fill="rgba(255,255,255,0.04)"/>
+
+              {/* Wax seal shadow */}
+              <circle cx="152" cy="112" r="36" fill="rgba(0,0,0,0.22)"/>
+              {/* Wax seal */}
+              <circle cx="150" cy="108" r="36" fill="url(#ll-seal)"/>
+              {/* Seal outer rim */}
+              <circle cx="150" cy="108" r="36" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
+              {/* Seal inner rim */}
+              <circle cx="150" cy="108" r="30" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="0.8"/>
+
+              {/* Botanical — stem */}
+              <g stroke="rgba(232,184,154,0.78)" fill="none" strokeLinecap="round">
+                <line x1="150" y1="91"  x2="150" y2="125" strokeWidth="1.2"/>
+                {/* Left branches */}
+                <line x1="150" y1="95"  x2="139" y2="87"  strokeWidth="1.0"/>
+                <line x1="150" y1="101" x2="136" y2="96"  strokeWidth="0.9"/>
+                <line x1="150" y1="108" x2="135" y2="104" strokeWidth="0.85"/>
+                <line x1="150" y1="115" x2="138" y2="111" strokeWidth="0.8"/>
+                <line x1="150" y1="121" x2="141" y2="119" strokeWidth="0.7"/>
+                {/* Right branches */}
+                <line x1="150" y1="95"  x2="161" y2="87"  strokeWidth="1.0"/>
+                <line x1="150" y1="101" x2="164" y2="96"  strokeWidth="0.9"/>
+                <line x1="150" y1="108" x2="165" y2="104" strokeWidth="0.85"/>
+                <line x1="150" y1="115" x2="162" y2="111" strokeWidth="0.8"/>
+                <line x1="150" y1="121" x2="159" y2="119" strokeWidth="0.7"/>
+              </g>
+              {/* Leaf tip dots */}
+              <g fill="rgba(232,184,154,0.72)">
+                <circle cx="138" cy="87"  r="2.2"/>
+                <circle cx="162" cy="87"  r="2.2"/>
+                <circle cx="135" cy="96"  r="1.8"/>
+                <circle cx="165" cy="96"  r="1.8"/>
+                <circle cx="134" cy="104" r="1.6"/>
+                <circle cx="166" cy="104" r="1.6"/>
+                <circle cx="137" cy="111" r="1.4"/>
+                <circle cx="163" cy="111" r="1.4"/>
+              </g>
+            </svg>
+
+            {/* Hover indicator — open envelope icon fades in */}
             <div
-              className="absolute top-[18px] right-[18px] w-[38px] h-[38px] rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110"
-              style={{ border: '2px solid rgba(255,255,255,0.80)' }}
+              className="absolute inset-x-0 bottom-0 flex justify-center pb-[14px] opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0 pointer-events-none"
             >
-              <svg width="15" height="14" viewBox="0 0 15 14" fill="white" aria-hidden="true">
-                <path d="M7.5 12.8S1.2 8.8 1.2 4.8a3.3 3.3 0 0 1 6.3-1.4 3.3 3.3 0 0 1 6.3 1.4c0 4-6.3 8-6.3 8Z"/>
-              </svg>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                background: 'rgba(255,255,255,0.13)',
+                backdropFilter: 'blur(6px)',
+                WebkitBackdropFilter: 'blur(6px)',
+                borderRadius: '999px',
+                padding: '5px 12px 5px 9px',
+              }}>
+                {/* Open-envelope icon */}
+                <svg width="15" height="12" viewBox="0 0 15 12" fill="none" aria-hidden="true">
+                  <rect x="0.75" y="3.25" width="13.5" height="8" rx="1.5" stroke="rgba(255,255,255,0.85)" strokeWidth="1.2"/>
+                  <path d="M1 3.75l6.5 4.5 6.5-4.5" stroke="rgba(255,255,255,0.85)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M7.5 0l1.8 1.8-1.8 1.8L5.7 1.8z" fill="rgba(232,184,154,0.9)"/>
+                </svg>
+                <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-cormorant), Georgia, serif', letterSpacing: '0.28em', textTransform: 'uppercase' }}>
+                  {tr.clickToOpen}
+                </span>
+              </div>
             </div>
-
-            {/* Top-left dot */}
-            <div className="absolute top-[22px] left-[22px] w-[6px] h-[6px] rounded-full" style={{ background: 'rgba(255,255,255,0.3)' }} aria-hidden="true" />
-
-            {/* Bottom-right dot */}
-            <div className="absolute bottom-[22px] right-[52px] w-[6px] h-[6px] rounded-full" style={{ background: 'rgba(255,255,255,0.3)' }} aria-hidden="true" />
-
-            {/* Centre rule */}
-            <div style={{ width: '58%', height: '1px', background: 'rgba(255,255,255,0.22)' }} aria-hidden="true" />
           </div>
         </button>
 
