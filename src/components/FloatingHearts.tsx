@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 
 interface Heart {
   id: number;
-  x: number;       // % from left
-  size: number;    // px
-  delay: number;   // s
-  duration: number;// s
+  x: number;
+  size: number;
+  delay: number;
+  duration: number;
   opacity: number;
   char: string;
 }
@@ -23,19 +23,21 @@ export default function FloatingHearts() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    const batch: Heart[] = Array.from({ length: 40 }, (_, i) => ({
+    // Skip if user prefers reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const batch: Heart[] = Array.from({ length: 20 }, (_, i) => ({
       id: i,
       x: rand(2, 98),
-      size: rand(14, 38),
-      delay: rand(0, 3.5),
-      duration: rand(4, 8),
+      size: rand(14, 36),
+      delay: rand(0, 1),        // tight burst — all appear within 1s
+      duration: rand(3.5, 6),
       opacity: rand(0.5, 1),
       char: HEART_CHARS[Math.floor(Math.random() * HEART_CHARS.length)],
     }));
     setHearts(batch);
 
-    // Remove overlay after last heart finishes
-    const maxLifetime = Math.max(...batch.map(h => h.delay + h.duration)) * 1000 + 500;
+    const maxLifetime = Math.max(...batch.map(h => h.delay + h.duration)) * 1000 + 300;
     const t = setTimeout(() => setDone(true), maxLifetime);
     return () => clearTimeout(t);
   }, []);

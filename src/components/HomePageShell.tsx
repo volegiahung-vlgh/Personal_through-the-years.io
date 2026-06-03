@@ -41,7 +41,7 @@ export default function HomePageShell({ allPhotos, phuQuyPhotos }: Props) {
           <div
             className="w-full rounded-3xl py-16 px-6 flex flex-col items-center relative overflow-hidden"
             style={{
-              background: 'linear-gradient(135deg, #fce8ee 0%, #faf0f4 50%, #fce8ee 100%)',
+              background: 'linear-gradient(135deg, var(--bg-blush) 0%, var(--bg-blush-soft) 50%, var(--bg-blush) 100%)',
               border: '1px solid rgba(155,29,66,0.12)',
             }}
           >

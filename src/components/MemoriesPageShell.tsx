@@ -8,6 +8,9 @@ import MemoriesPlaylist from '@/components/MemoriesPlaylist';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { t } from '@/translations';
 
+const SECTION_IDS = { places: 'ban-do', music: 'nhac', food: 'mon-ngon', words: 'loi-thuong' } as const;
+const SECTION_ID_LIST = [SECTION_IDS.places, SECTION_IDS.music, SECTION_IDS.food, SECTION_IDS.words] as const;
+
 interface Place   { id: number; name: string; region: string; year: number; emoji: string; note: string }
 interface Track   { id: number; title: string; artist: string; year: number; note: string }
 interface Dish    { id: number; emoji: string; photo: string | null; name: string; place: string; note: string }
@@ -36,7 +39,7 @@ export default function MemoriesPageShell({
       <FloatingHearts />
 
       {/* ── Page header ─────────────────────────────────────── */}
-      <section className="pt-48 pb-16 text-center px-6">
+      <section className="pt-28 md:pt-48 pb-16 text-center px-6">
         <p
           className="font-serif uppercase mb-4"
           style={{ color: 'var(--ink-faint)', letterSpacing: '0.42em', fontSize: '11px' }}
@@ -78,10 +81,10 @@ export default function MemoriesPageShell({
 
         {/* Jump anchors */}
         <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mt-10">
-          {tr.anchors.map(({ href, label }) => (
+          {tr.anchors.map(({ label }, i) => (
             <a
-              key={href}
-              href={href}
+              key={SECTION_ID_LIST[i]}
+              href={`#${SECTION_ID_LIST[i]}`}
               className="font-serif uppercase text-[11px] pb-1"
               style={{ color: 'var(--terracotta-deep)', letterSpacing: '0.35em', borderBottom: '1px solid var(--terracotta)' }}
             >
@@ -94,7 +97,7 @@ export default function MemoriesPageShell({
       {/* ══════════════════════════════════════════════════════ */}
       {/* ── Section 1 : Map ─────────────────────────────────── */}
       {/* ══════════════════════════════════════════════════════ */}
-      <section id="ban-do" className="py-20 px-6">
+      <section id={SECTION_IDS.places} className="py-20 px-6">
         <div className="max-w-3xl mx-auto">
           <SectionTitle eyebrow={tr.placesEyebrow} title={tr.placesTitle} />
           <p
@@ -112,7 +115,7 @@ export default function MemoriesPageShell({
       {/* ══════════════════════════════════════════════════════ */}
       {/* ── Section 2 : Music ───────────────────────────────── */}
       {/* ══════════════════════════════════════════════════════ */}
-      <section id="nhac" className="py-20 px-6">
+      <section id={SECTION_IDS.music} className="py-20 px-6">
         <div className="max-w-2xl mx-auto">
           <SectionTitle eyebrow={tr.musicEyebrow} title={tr.musicTitle} />
           <p
@@ -130,7 +133,7 @@ export default function MemoriesPageShell({
       {/* ══════════════════════════════════════════════════════ */}
       {/* ── Section 3 : Food ────────────────────────────────── */}
       {/* ══════════════════════════════════════════════════════ */}
-      <section id="mon-ngon" className="py-20 px-6">
+      <section id={SECTION_IDS.food} className="py-20 px-6">
         <div className="max-w-5xl mx-auto">
           <SectionTitle eyebrow={tr.foodEyebrow} title={tr.foodTitle} />
           <p
@@ -148,7 +151,7 @@ export default function MemoriesPageShell({
       {/* ══════════════════════════════════════════════════════ */}
       {/* ── Section 4 : Love Words ──────────────────────────── */}
       {/* ══════════════════════════════════════════════════════ */}
-      <section id="loi-thuong" className="py-20 px-6">
+      <section id={SECTION_IDS.words} className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <SectionTitle eyebrow={tr.wordsEyebrow} title={tr.wordsTitle} />
           <p
@@ -189,7 +192,7 @@ export default function MemoriesPageShell({
       {/* ── Footer ornament ─────────────────────────────────── */}
       <section className="py-24 text-center px-6" style={{ background: 'var(--bg-cream)' }}>
         <div className="font-script mb-4" style={{ fontSize: '52px', color: 'var(--terracotta)' }}>
-          {lang === 'VI' ? 'Mãi mãi' : 'Forever'}
+          {tr.forever}
         </div>
         <p
           className="font-serif italic"

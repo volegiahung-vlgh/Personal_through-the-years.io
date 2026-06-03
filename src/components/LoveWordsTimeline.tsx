@@ -16,7 +16,7 @@ export default function LoveWordsTimeline({ words }: LoveWordsTimelineProps) {
           key={word.id}
           className="relative rounded-2xl px-8 py-7 overflow-hidden"
           style={{
-            background: 'linear-gradient(135deg, #fce8ee 0%, #faf4ec 100%)',
+            background: 'linear-gradient(135deg, var(--bg-blush) 0%, var(--bg-cream) 100%)',
             border: '1px solid rgba(155,29,66,0.12)',
           }}
         >

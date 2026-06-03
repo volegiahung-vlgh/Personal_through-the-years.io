@@ -53,8 +53,8 @@ export default function MomentCard({ moment }: Props) {
           </p>
         </div>
 
-        {/* Top-right icon */}
-        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        {/* Top-right icon — always visible at low opacity, full on hover */}
+        <div className="absolute top-3 right-3 opacity-50 group-hover:opacity-100 transition-opacity duration-300"
              style={{ color: 'rgba(255,255,255,0.9)' }}>
           <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
             <circle cx="11" cy="11" r="9.5" stroke="currentColor" strokeWidth="1.5"/>

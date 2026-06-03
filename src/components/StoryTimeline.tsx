@@ -93,7 +93,7 @@ export default function StoryTimeline({ entries }: StoryTimelineProps) {
               {/* Moment cards */}
               {hasMoments && (
                 <div>
-                  <p className="font-serif uppercase text-[10px] tracking-widest mb-4"
+                  <p className="font-serif uppercase text-[12px] tracking-widest mb-4"
                      style={{ color: 'var(--ink-faint)', letterSpacing: '0.32em' }}>
                     {tr.moments}
                   </p>
@@ -114,7 +114,7 @@ export default function StoryTimeline({ entries }: StoryTimelineProps) {
               {hasPhotos && (
                 <div>
                   {hasMoments && (
-                    <p className="font-serif uppercase text-[10px] tracking-widest mb-4"
+                    <p className="font-serif uppercase text-[12px] tracking-widest mb-4"
                        style={{ color: 'var(--ink-faint)', letterSpacing: '0.32em' }}>
                       {tr.photos}
                     </p>

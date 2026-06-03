@@ -7,6 +7,8 @@
   --bg:             #f4ebe3;
   --bg-deep:        #ead9c9;
   --bg-cream:       #faf4ec;
+  --bg-blush:       #fce8ee;
+  --bg-blush-soft:  #faf0f4;
   --ink:            #2b1f17;
   --ink-soft:       #6b574a;
   --ink-faint:      #a8927f;
@@ -106,4 +108,13 @@ body::before {
   border: none;
   border-top: 1px solid var(--rule);
   margin: 0;
+}
+
+/* ── Reduced motion ─────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -11,7 +11,7 @@ export default function AboutPageContent() {
   return (
     <div style={{ background: 'var(--bg)' }} className="min-h-screen">
       {/* ── Page header ─────────────────────────────────────── */}
-      <section className="pt-48 pb-16 text-center px-6">
+      <section className="pt-28 md:pt-48 pb-16 text-center px-6">
         <p
           className="font-serif uppercase mb-4"
           style={{ color: 'var(--ink-faint)', letterSpacing: '0.42em', fontSize: '11px' }}

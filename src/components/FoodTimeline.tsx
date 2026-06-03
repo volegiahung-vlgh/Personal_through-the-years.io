@@ -42,7 +42,7 @@ export default function FoodTimeline({ dishes }: FoodTimelineProps) {
               className="flex items-center justify-center"
               style={{
                 height: '80px',
-                background: 'linear-gradient(135deg, #fce8ee 0%, #faf0f4 100%)',
+                background: 'linear-gradient(135deg, var(--bg-blush) 0%, var(--bg-blush-soft) 100%)',
                 borderBottom: '1px solid rgba(155,29,66,0.08)',
                 fontSize: '36px',
               }}

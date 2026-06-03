@@ -130,10 +130,13 @@ export default function PhotoGallery({ photos, className = '' }: PhotoGalleryPro
           {photos.length > 1 && (
             <button
               onClick={e => { e.stopPropagation(); prev(); }}
+              aria-label="Previous photo"
               className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full transition-all hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', fontSize: '22px' }}
+              style={{ background: 'rgba(255,255,255,0.12)', color: '#fff' }}
             >
-              ‹
+              <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                <path d="M9 1L1 9l8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </button>
           )}
 
@@ -141,20 +144,26 @@ export default function PhotoGallery({ photos, className = '' }: PhotoGalleryPro
           {photos.length > 1 && (
             <button
               onClick={e => { e.stopPropagation(); next(); }}
+              aria-label="Next photo"
               className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 flex items-center justify-center rounded-full transition-all hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', fontSize: '22px' }}
+              style={{ background: 'rgba(255,255,255,0.12)', color: '#fff' }}
             >
-              ›
+              <svg width="10" height="18" viewBox="0 0 10 18" fill="none" aria-hidden="true">
+                <path d="M1 1l8 8-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </button>
           )}
 
           {/* Close */}
           <button
             onClick={() => setLightboxIndex(null)}
+            aria-label="Close photo"
             className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full transition-all hover:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-            style={{ background: 'rgba(255,255,255,0.12)', color: '#fff', fontSize: '20px' }}
+            style={{ background: 'rgba(255,255,255,0.12)', color: '#fff' }}
           >
-            ×
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
           </button>
         </div>
       )}
