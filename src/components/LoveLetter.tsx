@@ -107,71 +107,90 @@ export default function LoveLetter() {
             {/* Envelope SVG */}
             <svg viewBox="0 0 300 200" width="300" height="200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <defs>
+                {/* Envelope body */}
                 <linearGradient id="ll-body" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
                   <stop offset="0%" stopColor="#a82048"/>
                   <stop offset="100%" stopColor="#721430"/>
                 </linearGradient>
+                {/* Top flap — darker shade for depth */}
                 <linearGradient id="ll-flap" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-                  <stop offset="0%" stopColor="#7c1630"/>
-                  <stop offset="100%" stopColor="#921c3c"/>
+                  <stop offset="0%" stopColor="#6c1128"/>
+                  <stop offset="100%" stopColor="#881a34"/>
                 </linearGradient>
-                <radialGradient id="ll-seal" cx="45%" cy="35%" r="65%">
-                  <stop offset="0%" stopColor="#b02848"/>
-                  <stop offset="100%" stopColor="#5c1020"/>
+                {/* Wax seal — 4-stop radial for realistic 3-D depth */}
+                <radialGradient id="ll-wax" cx="36%" cy="26%" r="70%">
+                  <stop offset="0%"   stopColor="#e03c6c"/>
+                  <stop offset="28%"  stopColor="#bf2448"/>
+                  <stop offset="65%"  stopColor="#901832"/>
+                  <stop offset="100%" stopColor="#500a1a"/>
                 </radialGradient>
+                {/* Specular gloss — top-left highlight */}
+                <radialGradient id="ll-gloss" cx="28%" cy="22%" r="58%">
+                  <stop offset="0%"   stopColor="rgba(255,255,255,0.26)"/>
+                  <stop offset="100%" stopColor="rgba(255,255,255,0)"/>
+                </radialGradient>
+                {/* Feathered drop shadow for the seal */}
+                <filter id="ll-drop" x="-70%" y="-70%" width="240%" height="240%">
+                  <feDropShadow dx="1" dy="5" stdDeviation="6" floodColor="#280610" floodOpacity="0.60"/>
+                </filter>
               </defs>
 
-              {/* Body */}
+              {/* ── Envelope body ── */}
               <rect width="300" height="200" rx="12" fill="url(#ll-body)"/>
-              {/* Top highlight */}
-              <rect width="300" height="70" rx="12" fill="rgba(255,255,255,0.055)"/>
+              {/* Subtle paper-sheen along the top edge */}
+              <rect width="300" height="50" rx="12" fill="rgba(255,255,255,0.052)"/>
 
-              {/* Fold lines — bottom V */}
-              <line x1="0"   y1="200" x2="150" y2="118" stroke="rgba(0,0,0,0.20)" strokeWidth="1"/>
-              <line x1="300" y1="200" x2="150" y2="118" stroke="rgba(0,0,0,0.20)" strokeWidth="1"/>
-              {/* Fold lines — side diagonals */}
-              <line x1="0"   y1="0" x2="150" y2="88" stroke="rgba(0,0,0,0.13)" strokeWidth="0.8"/>
-              <line x1="300" y1="0" x2="150" y2="88" stroke="rgba(0,0,0,0.13)" strokeWidth="0.8"/>
+              {/* Fold crease — bottom V */}
+              <line x1="0"   y1="200" x2="150" y2="118" stroke="rgba(0,0,0,0.22)" strokeWidth="1"/>
+              <line x1="300" y1="200" x2="150" y2="118" stroke="rgba(0,0,0,0.22)" strokeWidth="1"/>
+              {/* Fold crease — side diagonals to flap tip */}
+              <line x1="0"   y1="0" x2="150" y2="88" stroke="rgba(0,0,0,0.12)" strokeWidth="0.7"/>
+              <line x1="300" y1="0" x2="150" y2="88" stroke="rgba(0,0,0,0.12)" strokeWidth="0.7"/>
 
-              {/* Top flap triangle */}
+              {/* ── Top flap ── */}
               <polygon points="0,0 300,0 150,88" fill="url(#ll-flap)"/>
-              <polygon points="0,0 300,0 150,88" fill="rgba(255,255,255,0.04)"/>
+              <polygon points="0,0 300,0 150,88" fill="rgba(255,255,255,0.035)"/>
+              {/* Flap-edge highlight */}
+              <line x1="0"   y1="0" x2="150" y2="88" stroke="rgba(255,255,255,0.085)" strokeWidth="0.8"/>
+              <line x1="300" y1="0" x2="150" y2="88" stroke="rgba(255,255,255,0.085)" strokeWidth="0.8"/>
 
-              {/* Wax seal shadow */}
-              <circle cx="152" cy="112" r="36" fill="rgba(0,0,0,0.22)"/>
-              {/* Wax seal */}
-              <circle cx="150" cy="108" r="36" fill="url(#ll-seal)"/>
-              {/* Seal outer rim */}
-              <circle cx="150" cy="108" r="36" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5"/>
-              {/* Seal inner rim */}
-              <circle cx="150" cy="108" r="30" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="0.8"/>
+              {/* ── Wax seal ── */}
+              {/* Soft drop-shadow layer */}
+              <circle cx="150" cy="111" r="39" fill="url(#ll-wax)" filter="url(#ll-drop)"/>
+              {/* Main wax disc */}
+              <circle cx="150" cy="110" r="39" fill="url(#ll-wax)"/>
+              {/* Top-left specular gloss */}
+              <circle cx="150" cy="110" r="39" fill="url(#ll-gloss)"/>
+              {/* Outer decorative rim */}
+              <circle cx="150" cy="110" r="37"   fill="none" stroke="rgba(255,220,202,0.45)" strokeWidth="1.5"/>
+              {/* Inner rim — stamp-border look */}
+              <circle cx="150" cy="110" r="30.5" fill="none" stroke="rgba(255,220,202,0.28)" strokeWidth="0.9"/>
 
-              {/* Botanical — stem */}
-              <g stroke="rgba(232,184,154,0.78)" fill="none" strokeLinecap="round">
-                <line x1="150" y1="91"  x2="150" y2="125" strokeWidth="1.2"/>
-                {/* Left branches */}
-                <line x1="150" y1="95"  x2="139" y2="87"  strokeWidth="1.0"/>
-                <line x1="150" y1="101" x2="136" y2="96"  strokeWidth="0.9"/>
-                <line x1="150" y1="108" x2="135" y2="104" strokeWidth="0.85"/>
-                <line x1="150" y1="115" x2="138" y2="111" strokeWidth="0.8"/>
-                <line x1="150" y1="121" x2="141" y2="119" strokeWidth="0.7"/>
-                {/* Right branches */}
-                <line x1="150" y1="95"  x2="161" y2="87"  strokeWidth="1.0"/>
-                <line x1="150" y1="101" x2="164" y2="96"  strokeWidth="0.9"/>
-                <line x1="150" y1="108" x2="165" y2="104" strokeWidth="0.85"/>
-                <line x1="150" y1="115" x2="162" y2="111" strokeWidth="0.8"/>
-                <line x1="150" y1="121" x2="159" y2="119" strokeWidth="0.7"/>
-              </g>
-              {/* Leaf tip dots */}
-              <g fill="rgba(232,184,154,0.72)">
-                <circle cx="138" cy="87"  r="2.2"/>
-                <circle cx="162" cy="87"  r="2.2"/>
-                <circle cx="135" cy="96"  r="1.8"/>
-                <circle cx="165" cy="96"  r="1.8"/>
-                <circle cx="134" cy="104" r="1.6"/>
-                <circle cx="166" cy="104" r="1.6"/>
-                <circle cx="137" cy="111" r="1.4"/>
-                <circle cx="163" cy="111" r="1.4"/>
+              {/* ── Embossed botanical-heart design (lighter = raised wax) ── */}
+              <g transform="translate(150,110)" stroke="rgba(255,215,195,0.82)" fill="none"
+                 strokeLinecap="round" strokeLinejoin="round">
+                {/* Heart */}
+                <path
+                  d="M0,7 C-1,5 -10.5,-5 -10.5,-10 a5.7,5.7 0 0,1 10.5,0 a5.7,5.7 0 0,1 10.5,0 C10.5,-5 1,5 0,7z"
+                  fill="rgba(255,215,195,0.18)" strokeWidth="1.2"/>
+                {/* Left sprig */}
+                <line x1="-4.5" y1="5"  x2="-18"  y2="-3"   strokeWidth="1.05"/>
+                <line x1="-18"  y1="-3" x2="-23.5" y2="-11"  strokeWidth="0.92"/>
+                <line x1="-18"  y1="-3" x2="-13.5" y2="-12"  strokeWidth="0.82"/>
+                <circle cx="-23.5" cy="-11" r="2.1" fill="rgba(255,215,195,0.72)" stroke="none"/>
+                <circle cx="-13.5" cy="-12" r="1.8" fill="rgba(255,215,195,0.72)" stroke="none"/>
+                {/* Right sprig (mirror) */}
+                <line x1="4.5" y1="5"  x2="18"   y2="-3"  strokeWidth="1.05"/>
+                <line x1="18"  y1="-3" x2="23.5"  y2="-11" strokeWidth="0.92"/>
+                <line x1="18"  y1="-3" x2="13.5"  y2="-12" strokeWidth="0.82"/>
+                <circle cx="23.5" cy="-11" r="2.1" fill="rgba(255,215,195,0.72)" stroke="none"/>
+                <circle cx="13.5" cy="-12" r="1.8" fill="rgba(255,215,195,0.72)" stroke="none"/>
+                {/* Bottom stem */}
+                <line x1="0" y1="7"  x2="0"   y2="18"   strokeWidth="0.95"/>
+                <line x1="0" y1="16" x2="-6.5" y2="22.5" strokeWidth="0.80"/>
+                <line x1="0" y1="16" x2="6.5"  y2="22.5" strokeWidth="0.80"/>
+                <circle cx="-6.5" cy="22.5" r="1.7" fill="rgba(255,215,195,0.72)" stroke="none"/>
+                <circle cx="6.5"  cy="22.5" r="1.7" fill="rgba(255,215,195,0.72)" stroke="none"/>
               </g>
             </svg>
 
