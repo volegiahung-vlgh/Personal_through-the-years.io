@@ -97,6 +97,8 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
   const { lang } = useLanguage();
   const tr = t(lang).splash;
 
+  const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   useEffect(() => {
     if (sessionStorage.getItem('splashed') === '1') {
       setPhase('gone');
@@ -111,18 +113,26 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
       setBg(photos[Math.floor(Math.random() * photos.length)]);
     }
 
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
     Array.from({ length: LINE_COUNT }).forEach((_, i) => {
-      setTimeout(() => setVisibleLines(i + 1), LINE_DELAY * (i + 1));
+      timers.push(setTimeout(() => setVisibleLines(i + 1), LINE_DELAY * (i + 1)));
     });
-    setTimeout(() => setShowReady(true), READY_DELAY);
-    setTimeout(() => setBarFull(true),   READY_DELAY + 80);
-    setTimeout(() => setShowPrompt(true), READY_DELAY + 80 + BAR_DURATION + 200);
+    timers.push(setTimeout(() => setShowReady(true), READY_DELAY));
+    timers.push(setTimeout(() => setBarFull(true),   READY_DELAY + 80));
+    timers.push(setTimeout(() => setShowPrompt(true), READY_DELAY + 80 + BAR_DURATION + 200));
+
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  useEffect(() => {
+    return () => { if (dismissTimerRef.current) clearTimeout(dismissTimerRef.current); };
   }, []);
 
   const handleDismiss = () => {
     if (!showPrompt) return;
     setFading(true);
-    setTimeout(() => setPhase('gone'), 700);
+    dismissTimerRef.current = setTimeout(() => setPhase('gone'), 700);
   };
 
   if (phase !== 'show') return null;
@@ -169,7 +179,7 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
           className="uppercase tracking-widest mb-3"
           style={{ fontSize: '11px', color: '#e8b89a', letterSpacing: '0.28em' }}
         >
-          {lang === 'VI' ? 'Đang khởi động' : 'Initializing'}
+          {tr.initializing}
         </p>
 
         <h1
@@ -207,7 +217,7 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
             className="mt-4 uppercase tracking-widest"
             style={{ fontSize: '11px', color: '#e8b89a', letterSpacing: '0.28em' }}
           >
-            {lang === 'VI' ? 'Sẵn sàng' : 'Ready'}
+            {tr.ready}
           </p>
         )}
       </div>

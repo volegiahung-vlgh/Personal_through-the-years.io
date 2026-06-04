@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { t } from '@/translations';
 
 const START = new Date('2021-02-08T00:00:00');
 
@@ -128,6 +130,8 @@ export default function DayCounterClock() {
   const [elapsed, setElapsed] = useState<Elapsed | null>(null);
   const [mounted, setMounted] = useState(false);
   const [pulse, setPulse] = useState(true);
+  const { lang } = useLanguage();
+  const tr = t(lang).daycounter;
 
   useEffect(() => {
     setElapsed(getElapsed());
@@ -162,7 +166,7 @@ export default function DayCounterClock() {
           transition: 'opacity 0.5s ease 50ms',
         }}
       >
-        Từ 08 · 02 · 2021
+        {tr.since}
       </p>
 
       {/* Three segments */}
@@ -174,7 +178,7 @@ export default function DayCounterClock() {
           gap: '4px',
         }}
       >
-        <Segment value={e.years}  label="Năm"   mounted={mounted} delay={0}   />
+        <Segment value={e.years}  label={tr.years}  mounted={mounted} delay={0}   />
 
         {/* Pulsing dot */}
         <div
@@ -204,7 +208,7 @@ export default function DayCounterClock() {
           ))}
         </div>
 
-        <Segment value={e.months} label="Tháng" mounted={mounted} delay={120} />
+        <Segment value={e.months} label={tr.months} mounted={mounted} delay={120} />
 
         {/* Pulsing dot */}
         <div
@@ -234,7 +238,7 @@ export default function DayCounterClock() {
           ))}
         </div>
 
-        <Segment value={e.days}   label="Ngày"  mounted={mounted} delay={240} />
+        <Segment value={e.days}   label={tr.days}   mounted={mounted} delay={240} />
       </div>
 
       {/* Total days */}
@@ -264,7 +268,7 @@ export default function DayCounterClock() {
               color: 'var(--terracotta-deep)',
             }}
           >
-            {e.totalDays.toLocaleString('vi-VN')} ngày bên nhau
+            {e.totalDays.toLocaleString(lang === 'VI' ? 'vi-VN' : 'en-US')} {tr.daysTogether}
           </span>
           <span style={{ color: 'var(--terracotta)', fontSize: '14px' }}>♥</span>
         </div>

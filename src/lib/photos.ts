@@ -153,7 +153,7 @@ export function getMomentsForYear(year: number): Moment[] {
         .readdirSync(slugPath)
         .filter(f => IMAGE_EXTS.has(path.extname(f).toLowerCase()))
         .sort()
-        .map(f => `${BASE_PATH}/images/${year}/${dir.name}/${f}`);
+        .map(f => `${BASE_PATH}/images/${year}/${encodeURIComponent(dir.name)}/${encodeURIComponent(f)}`);
       return {
         name: formatName(dir.name),
         slug: dir.name,

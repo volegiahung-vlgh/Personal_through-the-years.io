@@ -11,6 +11,8 @@ const translations = {
     splash: {
       lines: ['Loading our story', 'Visualization', 'Building memories'],
       clickToContinue: 'Click anywhere to continue',
+      initializing: 'Initializing',
+      ready: 'Ready',
     },
     daycounter: {
       years: 'Years',
@@ -96,6 +98,8 @@ const translations = {
     splash: {
       lines: ['Đang tải câu chuyện', 'Hình ảnh', 'Đang dựng ký ức'],
       clickToContinue: 'Nhấn vào bất cứ đâu để tiếp tục',
+      initializing: 'Đang khởi động',
+      ready: 'Sẵn sàng',
     },
     daycounter: {
       years: 'Năm',
