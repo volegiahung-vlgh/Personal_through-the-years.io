@@ -4,9 +4,23 @@ import { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { t } from '@/translations';
 
+// ── Password (đổi chuỗi này thành password bạn muốn) ──────────
+const LETTER_PASSWORD = '0123456789';
+// ─────────────────────────────────────────────────────────────
+
 // ── Edit your letter here ─────────────────────────────────────
+const LETTER_DATE = 'TP. Hồ Chí Minh, 05 · 06 · 2026';
+
 const LETTER_PARAGRAPHS = [
-  '...',
+  'Gửi em,',
+  'Anh không giỏi viết mấy thứ này, em biết mà. Nhưng có vài điều anh muốn để lại đây, để khi nào em muốn đọc cũng thấy.',
+  'Thật ra lúc đầu anh đổ em trước. Cứ thấy em là trong đầu nghĩ đến, rồi tự nhiên thành ra cứ muốn ở gần, muốn theo em. Anh không tính toán gì nhiều đâu — chỉ là đi theo cái cảm giác đó thôi và cũng từ đó mối tình nên duyên và nó dẫn chúng ta đến tận đây lúc này.',
+  'Mình không có kỷ niệm gì kiểu để kể cho người ta nghe rồi trầm trồ. Anh nghĩ mãi cũng không ra "khoảnh khắc lớn" nào. Cái anh nhớ là những thứ nhỏ: người này làm cái này cái kia thì người kia ngồi cạnh và ngược lại, ngày trôi qua bình thường vậy thôi. Mà lạ, mấy ngày bình thường đó lại là thứ anh thấy yên bình nhất.',
+  'Cơ mà cũng không vì vậy mà thời gian trôi qua cũng chỉ toàn là yên bình, cũng có những ngày mệt mỏi, có lúc giận nhau, có lúc anh làm em buồn mà chính anh cũng chẳng biết sửa sao cho đúng. Nhưng mà nói chung là anh chẳng hề ghét gì việc đó vì anh hiểu rằng mọi hờn giận đều đến từ những kỳ vọng ta ghép cho nhau.',
+  'Anh không hứa sẽ làm em vui mỗi ngày, anh cũng không biết mình làm được hay không. Vì cuộc sống có lúc vui có lúc buồn mà. Nhưng anh vẫn ở đây, kể cả những ngày khó. Em mệt thì có anh, anh mệt thì anh tin có em.',
+  'Sắp tới mình về chung một nhà. Anh hơi lo thật. Nhưng lo cùng em thì anh thấy ổn.',
+  'Cảm ơn em đã để anh đi cùng.',
+  'Yêu em,\nVõ Lê Gia Hưng',
 ];
 // ─────────────────────────────────────────────────────────────
 
@@ -20,16 +34,43 @@ const HEARTS = [
 ];
 
 export default function LoveLetter() {
-  const [open, setOpen]         = useState(false);
-  const [pulse, setPulse]       = useState(false);
-  const [atBottom, setAtBottom] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [open, setOpen]           = useState(false);
+  const [pulse, setPulse]         = useState(false);
+  const [atBottom, setAtBottom]   = useState(false);
+  const [unlocked, setUnlocked]   = useState(false);
+  const [showPw, setShowPw]       = useState(false);
+  const [pwInput, setPwInput]     = useState('');
+  const [pwError, setPwError]     = useState(false);
+  const [shaking, setShaking]     = useState(false);
+  const scrollRef  = useRef<HTMLDivElement>(null);
+  const inputRef   = useRef<HTMLInputElement>(null);
   const { lang } = useLanguage();
   const tr = t(lang).letter;
 
   const handleOpen = () => {
     setPulse(true);
-    setTimeout(() => { setPulse(false); setOpen(true); }, 380);
+    setTimeout(() => {
+      setPulse(false);
+      if (unlocked) {
+        setOpen(true);
+      } else {
+        setShowPw(true);
+      }
+    }, 380);
+  };
+
+  const handlePwSubmit = () => {
+    if (pwInput === LETTER_PASSWORD) {
+      setUnlocked(true);
+      setShowPw(false);
+      setPwInput('');
+      setPwError(false);
+      setOpen(true);
+    } else {
+      setPwError(true);
+      setShaking(true);
+      setTimeout(() => setShaking(false), 500);
+    }
   };
 
   const handleClose = () => setOpen(false);
@@ -52,6 +93,10 @@ export default function LoveLetter() {
       if (el) setAtBottom(el.scrollHeight <= el.clientHeight);
     }
   }, [open]);
+
+  useEffect(() => {
+    if (showPw) setTimeout(() => inputRef.current?.focus(), 80);
+  }, [showPw]);
 
   return (
     <>
@@ -202,6 +247,110 @@ export default function LoveLetter() {
         </p>
       </div>
 
+      {/* ── Password overlay ────────────────────────────── */}
+      {showPw && (
+        <div
+          className="fixed inset-0 z-[8500] flex items-center justify-center p-4"
+          style={{ background: 'rgba(43,31,23,0.75)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}
+          onClick={() => { setShowPw(false); setPwInput(''); setPwError(false); }}
+        >
+          <div
+            className="relative w-full max-w-sm rounded-2xl overflow-hidden"
+            style={{
+              background: 'var(--bg-cream)',
+              boxShadow: '0 32px 80px rgba(0,0,0,0.45)',
+              animation: 'letterReveal 0.4s cubic-bezier(0.16,1,0.3,1) forwards',
+            }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div
+              className="flex items-center gap-3 px-8 py-5"
+              style={{ background: 'linear-gradient(135deg, #a82048 0%, #721430 100%)' }}
+            >
+              <div
+                className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                style={{ border: '1.5px solid rgba(255,255,255,0.7)' }}
+              >
+                <svg width="13" height="14" viewBox="0 0 13 14" fill="white" aria-hidden="true">
+                  <rect x="2" y="6" width="9" height="7" rx="1.5" stroke="white" strokeWidth="1.3" fill="none"/>
+                  <path d="M4 6V4.5a2.5 2.5 0 0 1 5 0V6" stroke="white" strokeWidth="1.3" fill="none" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <div className="flex flex-col leading-none gap-1">
+                <span className="font-script" style={{ fontSize: '26px', color: '#fff', lineHeight: 1 }}>
+                  Lá thư riêng
+                </span>
+                <span className="font-serif italic" style={{ fontSize: '11px', color: 'rgba(255,220,210,0.72)', letterSpacing: '0.18em' }}>
+                  Gửi · Bích Đào
+                </span>
+              </div>
+            </div>
+
+            {/* Body */}
+            <div className="px-8 py-8 flex flex-col items-center gap-5">
+              <p className="font-serif italic text-center" style={{ fontSize: '14px', color: 'var(--ink-soft)', lineHeight: '1.7' }}>
+                Lá thư này chỉ dành cho một người.<br />Nhập mật khẩu để mở.
+              </p>
+
+              {/* Input + shake */}
+              <div
+                style={{
+                  width: '100%',
+                  animation: shaking ? 'pwShake 0.45s ease' : 'none',
+                }}
+              >
+                <input
+                  ref={inputRef}
+                  type="password"
+                  value={pwInput}
+                  onChange={e => { setPwInput(e.target.value); setPwError(false); }}
+                  onKeyDown={e => e.key === 'Enter' && handlePwSubmit()}
+                  placeholder="Mật khẩu"
+                  className="w-full font-serif"
+                  style={{
+                    fontSize: '15px',
+                    padding: '10px 14px',
+                    borderRadius: '10px',
+                    border: `1.5px solid ${pwError ? '#c84830' : 'rgba(155,29,66,0.25)'}`,
+                    background: pwError ? 'rgba(200,72,48,0.05)' : 'rgba(155,29,66,0.04)',
+                    color: 'var(--ink)',
+                    outline: 'none',
+                    transition: 'border-color 0.2s',
+                    textAlign: 'center',
+                    letterSpacing: '0.2em',
+                  }}
+                />
+                {pwError && (
+                  <p className="font-serif italic text-center mt-2" style={{ fontSize: '12px', color: '#c84830' }}>
+                    Mật khẩu không đúng rồi ♡
+                  </p>
+                )}
+              </div>
+
+              <button
+                onClick={handlePwSubmit}
+                className="font-serif uppercase"
+                style={{
+                  padding: '10px 32px',
+                  borderRadius: '999px',
+                  background: 'linear-gradient(135deg, #a82048, #721430)',
+                  color: '#fff',
+                  fontSize: '12px',
+                  letterSpacing: '0.28em',
+                  border: 'none',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 16px rgba(160,32,72,0.35)',
+                  transition: 'opacity 0.2s',
+                }}
+              >
+                Mở thư
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── Open letter overlay ──────────────────────────── */}
       {open && (
         <div
@@ -233,9 +382,17 @@ export default function LoveLetter() {
                     <path d="M6.5 11S1 7.5 1 4a2.9 2.9 0 0 1 5.5-1.3A2.9 2.9 0 0 1 12 4c0 3.5-5.5 7-5.5 7Z"/>
                   </svg>
                 </div>
-                <span className="font-script leading-none" style={{ fontSize: '30px', color: '#fff' }}>
-                  {tr.title}
-                </span>
+                <div className="flex flex-col leading-none gap-1">
+                  <span className="font-script" style={{ fontSize: '30px', color: '#fff', lineHeight: 1 }}>
+                    {tr.title}
+                  </span>
+                  <span
+                    className="font-serif italic"
+                    style={{ fontSize: '11px', color: 'rgba(255,220,210,0.72)', letterSpacing: '0.18em' }}
+                  >
+                    Gửi · Bích Đào
+                  </span>
+                </div>
               </div>
               <button
                 onClick={handleClose}
@@ -256,8 +413,8 @@ export default function LoveLetter() {
               className="letter-scroll overflow-y-auto flex-1 px-8 sm:px-12"
               style={{
                 scrollBehavior: 'smooth',
-                paddingTop: '96px',   /* 3 × 32 — anchors grid so first text sits on a rule */
-                paddingBottom: '64px',
+                paddingTop: '32px',
+                paddingBottom: '32px',
                 backgroundImage: 'repeating-linear-gradient(to bottom, transparent 0px, transparent 31px, rgba(155,29,66,0.08) 31px, rgba(155,29,66,0.08) 32px)',
                 backgroundSize: '100% 32px',
                 backgroundAttachment: 'local',
@@ -276,35 +433,45 @@ export default function LoveLetter() {
 
               {/* Paragraphs — all locked to 32px grid */}
               <div>
-                {LETTER_PARAGRAPHS.map((para, i) => (
-                  <p
-                    key={i}
-                    className="font-serif"
-                    style={{
-                      fontSize: i === 0 ? '19px' : '15.5px',
-                      fontStyle: i === 0 ? 'normal' : 'italic',
-                      fontWeight: i === 0 ? 500 : 400,
-                      lineHeight: '32px',      /* matches the ruled grid exactly */
-                      marginBottom: '32px',    /* one blank ruled line between paragraphs */
-                      color: i === 0 ? 'var(--terracotta-deep)' : 'var(--ink)',
-                      whiteSpace: 'pre-line',
-                    }}
-                  >
-                    {para}
-                  </p>
-                ))}
+                {/* Date — top right, classic letter format */}
+                <p
+                  className="font-serif italic"
+                  style={{
+                    fontSize: '13px',
+                    lineHeight: '32px',
+                    marginBottom: '32px',
+                    textAlign: 'right',
+                    color: 'var(--ink-faint)',
+                    letterSpacing: '0.04em',
+                  }}
+                >
+                  {LETTER_DATE}
+                </p>
+
+                {LETTER_PARAGRAPHS.map((para, i) => {
+                  const isFirst = i === 0;
+                  const isLast  = i === LETTER_PARAGRAPHS.length - 1;
+                  return (
+                    <p
+                      key={i}
+                      className="font-serif"
+                      style={{
+                        fontSize:     isFirst ? '19px' : '15.5px',
+                        fontStyle:    'italic',
+                        fontWeight:   isFirst ? 500 : 400,
+                        lineHeight:   '32px',
+                        marginBottom: '32px',
+                        color:        isFirst ? 'var(--terracotta-deep)' : 'var(--ink)',
+                        whiteSpace:   'pre-line',
+                        textAlign:    isLast ? 'right' : 'left',
+                      }}
+                    >
+                      {para}
+                    </p>
+                  );
+                })}
               </div>
 
-              {/* Bottom ornament — 32px to stay on grid */}
-              <div
-                className="text-center"
-                style={{ height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                aria-hidden="true"
-              >
-                <span className="font-script" style={{ fontSize: '28px', color: 'var(--terracotta)', opacity: 0.45 }}>
-                  ✦
-                </span>
-              </div>
             </div>
 
             {/* Scroll-hint fade — disappears at bottom */}
