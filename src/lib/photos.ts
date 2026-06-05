@@ -1,5 +1,9 @@
 import fs from 'fs';
 import path from 'path';
+import type { Moment } from './types';
+
+export { toThumbSrc } from './image-utils';
+export type { Moment } from './types';
 
 const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.avif', '.heic', '.heif']);
 const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
@@ -136,15 +140,6 @@ export function getLovePhotos(): string[] {
   });
 
   return srcs;
-}
-
-export interface Moment {
-  name: string;
-  slug: string;
-  cover: string;
-  count: number;
-  photos: string[];
-  isPrivate: boolean;
 }
 
 function formatName(slug: string): string {

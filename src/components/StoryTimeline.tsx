@@ -2,7 +2,7 @@
 
 import PhotoGallery from './PhotoGallery';
 import MomentCard from './MomentCard';
-import type { Moment } from '@/lib/photos';
+import type { Moment } from '@/lib/types';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { t } from '@/translations';
 

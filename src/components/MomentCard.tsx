@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import type { Moment } from '@/lib/photos';
+import type { Moment } from '@/lib/types';
 import MomentGallery from './MomentGallery';
 
 // ── Password cho ảnh riêng tư (đổi cùng với SITE_PASSWORD trong PasswordGate.tsx) ──

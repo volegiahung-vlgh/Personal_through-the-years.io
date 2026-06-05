@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { toThumbSrc } from '@/lib/image-utils';
 
 interface HeroSectionProps {
   photos: string[];
@@ -22,9 +23,12 @@ export default function HeroSection({ photos }: HeroSectionProps) {
       {/* Background photo */}
       {bg && (
         <img
-          src={bg}
+          src={toThumbSrc(bg)}
           alt=""
           aria-hidden
+          fetchPriority="high"
+          loading="eager"
+          decoding="async"
           className="absolute inset-0 w-full h-full object-cover"
           style={{
             transform: 'scale(1.05)',

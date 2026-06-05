@@ -5,7 +5,7 @@ import QuoteCard from '@/components/QuoteCard';
 import FloatingHearts from '@/components/FloatingHearts';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { t } from '@/translations';
-import type { Moment } from '@/lib/photos';
+import type { Moment } from '@/lib/types';
 
 interface TimelinePhoto {
   src: string;

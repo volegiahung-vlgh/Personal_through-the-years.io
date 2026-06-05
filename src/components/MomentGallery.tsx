@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import type { Moment } from '@/lib/photos';
+import type { Moment } from '@/lib/types';
+import { toThumbSrc } from '@/lib/image-utils';
 
 interface Props {
   moment: Moment;
@@ -90,9 +91,10 @@ export default function MomentGallery({ moment, onClose }: Props) {
                 style={{ aspectRatio: '1', background: 'var(--bg-deep)' }}
               >
                 <img
-                  src={src}
+                  src={toThumbSrc(src)}
                   alt={`${moment.name} ${i + 1}`}
                   loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   style={{ filter: 'sepia(0.08) saturate(0.95)' }}
                 />
