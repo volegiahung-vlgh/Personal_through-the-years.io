@@ -32,33 +32,51 @@ export function getPhotosForYear(year: number) {
   const dir = path.join(process.cwd(), 'public', 'images', String(year));
   if (!fs.existsSync(dir)) return [];
 
-  // Collect filenames already inside album subfolders
+  const allEntries = fs.readdirSync(dir, { withFileTypes: true });
+  const captions = loadCaptions(year);
+
+  // Filenames in PUBLIC album subfolders (non-_ folders) — used for dedup
   const inAlbum = new Set<string>();
-  fs.readdirSync(dir, { withFileTypes: true })
-    .filter(e => e.isDirectory())
+  allEntries
+    .filter(e => e.isDirectory() && !e.name.startsWith('_'))
     .forEach(subDir => {
       fs.readdirSync(path.join(dir, subDir.name))
         .filter(f => IMAGE_EXTS.has(path.extname(f).toLowerCase()))
         .forEach(f => inAlbum.add(f.toLowerCase()));
     });
 
-  const captions = loadCaptions(year);
-
-  return fs
-    .readdirSync(dir)
-    .filter(file =>
-      IMAGE_EXTS.has(path.extname(file).toLowerCase()) &&
-      !inAlbum.has(file.toLowerCase()) &&
-      !isLovePhoto(file)
+  // Public loose photos directly in the year root
+  const publicPhotos = allEntries
+    .filter(e =>
+      e.isFile() &&
+      IMAGE_EXTS.has(path.extname(e.name).toLowerCase()) &&
+      !inAlbum.has(e.name.toLowerCase()) &&
+      !isLovePhoto(e.name)
     )
-    .sort()
-    .map(file => ({
-      src:     `${BASE_PATH}/images/${year}/${file}`,
-      // Use human caption when available; otherwise use generic year description
-      // so raw machine filenames (IMG_4053, 0E1E15B7...) never appear as alt text
-      alt:     captions[file] ?? `Khoảnh khắc ${year}`,
-      caption: captions[file] && !captions[file].startsWith('TODO') ? captions[file] : undefined,
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map(e => ({
+      src:       `${BASE_PATH}/images/${year}/${e.name}`,
+      alt:       captions[e.name] ?? `Khoảnh khắc ${year}`,
+      caption:   captions[e.name] && !captions[e.name].startsWith('TODO') ? captions[e.name] : undefined,
+      isPrivate: false as const,
     }));
+
+  // Private photos from _ prefixed subfolders — shown blurred in the same grid
+  const privatePhotos = allEntries
+    .filter(e => e.isDirectory() && e.name.startsWith('_'))
+    .flatMap(subDir =>
+      fs.readdirSync(path.join(dir, subDir.name))
+        .filter(f => IMAGE_EXTS.has(path.extname(f).toLowerCase()))
+        .sort()
+        .map(f => ({
+          src:       `${BASE_PATH}/images/${year}/${subDir.name}/${encodeURIComponent(f)}`,
+          alt:       `Khoảnh khắc ${year}`,
+          caption:   undefined as string | undefined,
+          isPrivate: true as const,
+        }))
+    );
+
+  return [...publicPhotos, ...privatePhotos];
 }
 
 const YEARS = [2021, 2022, 2023, 2024, 2025, 2026];
@@ -75,9 +93,9 @@ export function getAllPhotoSrcs(): string[] {
       .filter(e => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()) && !isLovePhoto(e.name))
       .forEach(e => srcs.push(`${BASE_PATH}/images/${year}/${e.name}`));
 
-    // Files inside album subfolders
+    // Files inside album subfolders (skip _private and other _ folders)
     fs.readdirSync(dir, { withFileTypes: true })
-      .filter(e => e.isDirectory())
+      .filter(e => e.isDirectory() && !e.name.startsWith('_'))
       .forEach(subDir => {
         fs.readdirSync(path.join(dir, subDir.name))
           .filter(f => IMAGE_EXTS.has(path.extname(f).toLowerCase()) && !isLovePhoto(f))
@@ -126,13 +144,16 @@ export interface Moment {
   cover: string;
   count: number;
   photos: string[];
+  isPrivate: boolean;
 }
 
 function formatName(slug: string): string {
+  // Strip leading underscores (used by _private folder convention)
+  const clean = slug.replace(/^_+/, '');
   // If name already contains Vietnamese/non-ASCII characters or spaces, return as-is
   // to avoid CSS/regex capitalize corrupting diacritics (e.g. "ChuyếN Du LịCh")
-  if (/[^\x00-\x7F]/.test(slug) || slug.includes(' ')) return slug;
-  return slug
+  if (/[^\x00-\x7F]/.test(clean) || clean.includes(' ')) return clean;
+  return clean
     .replace(/[-_]/g, ' ')
     .replace(/\b\w/g, c => c.toUpperCase());
 }
@@ -156,7 +177,7 @@ export function getMomentsForYear(year: number): Moment[] {
 
   return fs
     .readdirSync(yearDir, { withFileTypes: true })
-    .filter(e => e.isDirectory())
+    .filter(e => e.isDirectory() && !e.name.startsWith('_'))
     .sort((a, b) => a.name.localeCompare(b.name))
     .map(dir => {
       const slugPath = path.join(yearDir, dir.name);
@@ -171,6 +192,7 @@ export function getMomentsForYear(year: number): Moment[] {
         cover: photos[0] ?? '',
         count: photos.length,
         photos,
+        isPrivate: dir.name.startsWith('_'),
       };
     })
     .filter(m => m.count > 0);
