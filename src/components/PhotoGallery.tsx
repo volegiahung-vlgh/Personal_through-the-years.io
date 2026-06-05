@@ -100,11 +100,11 @@ export default function PhotoGallery({ photos, className = '' }: PhotoGalleryPro
 
   return (
     <>
-      <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ${className}`}>
+      <div className={`columns-1 sm:columns-2 lg:columns-3 gap-4 ${className}`}>
         {photos.map((photo, i) => {
           const isBlurred = photo.isPrivate && !unlocked;
           return (
-            <figure key={i} className="group relative overflow-hidden rounded-lg cursor-zoom-in">
+            <figure key={i} className="group relative overflow-hidden rounded-lg cursor-zoom-in break-inside-avoid mb-4">
               <button
                 onClick={() => handlePhotoClick(i)}
                 className="block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[var(--terracotta)]"
