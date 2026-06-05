@@ -67,13 +67,24 @@ export function getAllPhotoSrcs(): string[] {
   return YEARS.flatMap(year => {
     const dir = path.join(process.cwd(), 'public', 'images', String(year));
     if (!fs.existsSync(dir)) return [];
-    return fs
-      .readdirSync(dir)
-      .filter(file =>
-        IMAGE_EXTS.has(path.extname(file).toLowerCase()) &&
-        !isLovePhoto(file)
-      )
-      .map(file => `${BASE_PATH}/images/${year}/${file}`);
+
+    const srcs: string[] = [];
+
+    // Loose files directly in the year folder
+    fs.readdirSync(dir, { withFileTypes: true })
+      .filter(e => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()) && !isLovePhoto(e.name))
+      .forEach(e => srcs.push(`${BASE_PATH}/images/${year}/${e.name}`));
+
+    // Files inside album subfolders
+    fs.readdirSync(dir, { withFileTypes: true })
+      .filter(e => e.isDirectory())
+      .forEach(subDir => {
+        fs.readdirSync(path.join(dir, subDir.name))
+          .filter(f => IMAGE_EXTS.has(path.extname(f).toLowerCase()) && !isLovePhoto(f))
+          .forEach(f => srcs.push(`${BASE_PATH}/images/${year}/${encodeURIComponent(subDir.name)}/${encodeURIComponent(f)}`));
+      });
+
+    return srcs;
   });
 }
 

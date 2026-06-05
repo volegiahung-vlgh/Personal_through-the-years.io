@@ -100,13 +100,6 @@ export default function SplashScreen({ photos }: SplashScreenProps) {
   const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    if (sessionStorage.getItem('splashed') === '1') {
-      setPhase('gone');
-      return;
-    }
-
-    // Mark seen immediately — navigating away mid-animation won't replay it
-    sessionStorage.setItem('splashed', '1');
     setPhase('show');
 
     if (photos.length) {
